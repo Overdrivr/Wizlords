@@ -14,7 +14,7 @@
 
 namespace
 {
-  NzVertexBuffer m_vertexBuffer;
+  static NzVertexBuffer m_vertexBuffer;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
