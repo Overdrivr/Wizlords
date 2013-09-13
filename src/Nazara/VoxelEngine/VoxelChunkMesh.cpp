@@ -64,7 +64,7 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
         if(IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y + 1,Z))))
         {
             NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData((nzVoxelFaceOrientation_top),offset).data(),m_faceCount * 4,4);
+            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData((nzVoxelFaceOrientation_top),offset,0).data(),m_faceCount * 4,4);
             ++m_faceCount;
         }
 }
