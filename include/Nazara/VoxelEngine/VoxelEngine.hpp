@@ -9,6 +9,8 @@
 
 #include <Nazara/Prerequesites.hpp>
 #include <Nazara/Core/Initializer.hpp>
+#include <Nazara/Math/Vector3.hpp>
+#include <Nazara/VoxelEngine/Enums.hpp>
 
 class NzVoxelChunkMesh;
 
@@ -20,7 +22,7 @@ class NAZARA_API NzVoxelEngine
 
         static void DrawChunk(const NzVoxelChunkMesh& chunk);
 
-        static const std::array<float,24>& GetFaceData(nzVoxelFaceOrientation face);
+        static std::array<float,24> GetFaceData(nzVoxelFaceOrientation face, NzVector3f offset);
 
 		static bool Initialize();
 		static bool IsInitialized();

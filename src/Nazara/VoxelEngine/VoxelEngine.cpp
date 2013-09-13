@@ -24,6 +24,11 @@ void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
     NzRenderer::DrawIndexedPrimitives(nzPrimitiveMode_TriangleList,0,chunk.m_indexCount);
 }
 
+std::array<float,24> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzVector3f offset)
+{
+    NazaraError("A FAIRE");
+}
+
 bool NzVoxelEngine::Initialize()
 {
 	if (s_moduleReferenceCounter++ != 0)
