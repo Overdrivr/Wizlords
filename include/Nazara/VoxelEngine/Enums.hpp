@@ -15,4 +15,15 @@ enum nzVoxelBlockType
     nzVoxelBlockType_rock = 3,
     nzVoxelBlockType_wood = 4
 };
+
+enum nzVoxelFaceOrientation
+{
+    nzVoxelFaceOrientation_top,
+    nzVoxelFaceOrientation_bottom,
+    nzVoxelFaceOrientation_left,
+    nzVoxelFaceOrientation_right,
+    nzVoxelFaceOrientation_front,
+    nzVoxelFaceOrientation_back
+};
+
 #endif // NAZARA_ENUMS_VOXELENGINE_HPP
