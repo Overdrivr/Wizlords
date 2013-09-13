@@ -24,6 +24,7 @@ class NAZARA_API NzVoxelChunkMesh
 
 	private:
 		NzIndexBuffer m_indexBuffer;
+		NzVertexBuffer m_vertexBuffer
 		unsigned int m_indexCount;
 };
 
