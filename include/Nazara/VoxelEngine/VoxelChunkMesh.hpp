@@ -11,6 +11,7 @@
 #include <Nazara/Utility/IndexBuffer.hpp>
 #include <Nazara/Utility/VertexBuffer.hpp>
 #include <Nazara/VoxelEngine/VoxelArray.hpp>
+#include <Nazara/VoxelEngine/VoxelTerrain.hpp>
 #include <Nazara/VoxelEngine/VoxelEngine.hpp>
 
 class NAZARA_API NzVoxelChunkMesh
@@ -20,7 +21,7 @@ class NAZARA_API NzVoxelChunkMesh
 		NzVoxelChunkMesh();
 		~NzVoxelChunkMesh();
 
-		void GenerateMesh(const NzVoxelTerrain& terrain, NzVector3ui chunkLocation);
+		void GenerateMesh(const NzVoxelTerrain& terrain, NzVector3i chunkLocation);
 
 	private:
         void GenerateCube(const NzVoxelArray& voxelArray, unsigned int x, unsigned int y, unsigned int z);
