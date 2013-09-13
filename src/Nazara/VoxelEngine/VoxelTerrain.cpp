@@ -3,6 +3,7 @@
 // For conditions of distribution and use, see copyright notice in Config.hpp
 
 #include <Nazara/VoxelEngine/VoxelTerrain.hpp>
+#include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelTerrain::NzVoxelTerrain()
@@ -30,7 +31,7 @@ nzVoxelBlockType NzVoxelTerrain::GetBlockType(NzVector3i location)
 
 }
 
-bool NzVoxelTerrain::GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray)
+bool NzVoxelTerrain::GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray) const
 {
 
 }

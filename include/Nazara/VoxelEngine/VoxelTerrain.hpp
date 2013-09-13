@@ -11,8 +11,9 @@
 #include <Nazara/VoxelEngine/VoxelArray.hpp>
 #include <Nazara/Math/Vector3.hpp>
 #include <Nazara/Graphics.hpp>
-#include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <map>
+
+class NzVoxelChunkMesh;
 
 class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public NzUpdatable
 {
@@ -20,12 +21,12 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public 
 		NzVoxelTerrain();
 		~NzVoxelTerrain();
 
-		 virtual void Draw() const;
+		virtual void Draw() const;
 
         virtual const NzBoundingVolumef& GetBoundingVolume() const;
 		//virtual nzSceneNodeType GetSceneNodeType() const;
 		nzVoxelBlockType GetBlockType(NzVector3i location);
-		bool GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray);
+		bool GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray) const;
 
         virtual bool IsDrawable() const;
 
