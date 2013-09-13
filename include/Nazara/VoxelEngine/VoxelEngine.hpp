@@ -20,6 +20,8 @@ class NAZARA_API NzVoxelEngine
 
         static void DrawChunk(const NzVoxelChunkMesh& chunk);
 
+        static const std::array<float,24>& GetFaceData(nzVoxelFaceOrientation face);
+
 		static bool Initialize();
 		static bool IsInitialized();
 
