@@ -26,9 +26,9 @@ void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
 {
     m_faceCount = 0;
 
-    NzVoxelArray* voxelArray;
+    NzVoxelArray* voxelArray = terrain.GetVoxelArray(m_location);
 
-    if(!terrain.GetVoxelArray(m_location,voxelArray))
+    if(voxelArray == nullptr)
     {
         #if NAZARA_VOXELENGINE_SAFE
         NazaraWarning("Could not generate mesh, chunk not found");
