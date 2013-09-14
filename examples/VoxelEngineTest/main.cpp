@@ -25,6 +25,7 @@ int main()
 	NzScene scene;
 
 	NzVoxelTerrain terrain;
+	terrain.SetParent(scene);
 
 	NzTexture* texture = new NzTexture;
 	if (texture->LoadCubemapFromFile("resources/skybox-space.png"))
