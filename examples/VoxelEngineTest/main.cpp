@@ -3,6 +3,7 @@
 #include <Nazara/Renderer.hpp>
 #include <Nazara/Utility.hpp>
 #include <Nazara/VoxelEngine/VoxelEngine.hpp>
+#include <Nazara/VoxelEngine/VoxelTerrain.hpp>
 #include <iostream>
 
 // Petite fonction permettant de rendre le déplacement de la caméra moins ridige
@@ -22,6 +23,8 @@ int main()
 	}
 
 	NzScene scene;
+
+	NzVoxelTerrain terrain;
 
 	NzTexture* texture = new NzTexture;
 	if (texture->LoadCubemapFromFile("resources/skybox-space.png"))
