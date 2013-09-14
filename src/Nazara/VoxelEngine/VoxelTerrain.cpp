@@ -27,12 +27,13 @@ void NzVoxelTerrain::Draw() const
 
 const NzBoundingVolumef& NzVoxelTerrain::GetBoundingVolume() const
 {
-
+    return m_aabb;
 }
 
 nzVoxelBlockType NzVoxelTerrain::GetBlockType(NzVector3i location)
 {
-
+    NazaraError("A IMPLEMENTER");
+    return nzVoxelBlockType_nonvalid;
 }
 
 nzSceneNodeType NzVoxelTerrain::GetSceneNodeType() const
@@ -40,22 +41,14 @@ nzSceneNodeType NzVoxelTerrain::GetSceneNodeType() const
     return nzSceneNodeType_User;
 }
 
-bool NzVoxelTerrain::GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray)
+NzVoxelArray* NzVoxelTerrain::GetVoxelArray(NzVector3i location)
 {
     std::map<NzVector3i,NzVoxelArray>::iterator it = m_arrays.find(location);
 
     if(it != m_arrays.end())
-    {
-        NazaraError("right");
-        voxelArray = &(it->second);
-        return true;
-    }
-    else
-    {
-        NazaraError("wrong");
-        voxelArray = nullptr;
-        return false;
-    }
+        return &(it->second);
+
+    return nullptr;
 }
 
 bool NzVoxelTerrain::IsDrawable() const
@@ -65,7 +58,7 @@ bool NzVoxelTerrain::IsDrawable() const
 
 bool NzVoxelTerrain::SetBlockType(NzVector3i location, nzVoxelBlockType newType)
 {
-    NazaraError("A IMPLEMENTER ? WHATFOR ?");
+    NazaraError("A IMPLEMENTER");
 }
 
 void NzVoxelTerrain::AddToRenderQueue(NzAbstractRenderQueue* renderQueue) const
