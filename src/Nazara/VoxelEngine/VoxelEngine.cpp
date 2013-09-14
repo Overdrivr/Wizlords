@@ -15,10 +15,17 @@
 namespace
 {
   static std::array<float,32> m_topFace;
+  static NzRenderStates m_renderStates;
+  static NzShaderProgram* m_shader;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
 {
+    NzRenderer::SetMatrix(nzMatrixType_World, NzMatrix4f::Identity());
+    NzRenderer::SetRenderStates(m_renderStates);
+    NzRenderer::SetFaceFilling(nzFaceFilling_Line);
+    NzRenderer::SetShaderProgram(m_shader);
+
     NzRenderer::SetVertexBuffer(&(chunk.m_vertexBuffer));
     NzRenderer::DrawPrimitives(nzPrimitiveMode_TriangleStrip,0,chunk.m_vertexCount);
 }
@@ -64,6 +71,8 @@ bool NzVoxelEngine::Initialize()
 	}
 
     // Initialisation du module
+
+    m_renderStates.parameters[nzRendererParameter_DepthBuffer] = true;
 
 	// Initialisation des faces
 	//Vertex
@@ -111,6 +120,56 @@ bool NzVoxelEngine::Initialize()
 	m_topFace[30] = 0.f;
 	m_topFace[31] = 1.f;
 
+	// Shader
+	const char* vertexSource =
+    "#version 140\n"
+    "in vec3 VertexPosition;\n"
+    "in vec3 VertexNormal;\n"
+    "uniform mat4 WorldViewProjMatrix;\n"
+    "out vec3 normal;\n"
+    "out vec3 position;\n"
+
+    "void main()\n"
+    "{\n"
+	"normal = VertexNormal;\n"
+	"position = VertexPosition;\n"
+    "gl_Position = WorldViewProjMatrix * vec4(VertexPosition, 1.0);\n"
+    "}\n";
+
+    const char* fragmentSource =
+    "#version 140\n"
+    "out vec4 out_Color;\n"
+    "in vec3 normal;\n"
+    "in vec3 position;\n"
+
+    "void main()\n"
+    "{\n"
+    "out_Color = vec4(0.0,1.0,0.0,1.0);\n"
+    "}\n";
+
+    m_shader = new NzShaderProgram(nzShaderLanguage_GLSL);
+
+    if (!m_shader->LoadShader(nzShaderType_Fragment, fragmentSource))
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to load fragment shader");
+        delete m_shader;
+        return false;
+    }
+
+    if (!m_shader->LoadShader(nzShaderType_Vertex, vertexSource))
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to load vertex shader");
+        delete m_shader;
+        return false;
+    }
+
+    if (!m_shader->Compile())
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to compile shader");
+        delete m_shader;
+        return false;
+    }
+
 	NazaraNotice("Initialized: VoxelEngine module");
 
 	return true;
@@ -134,6 +193,8 @@ void NzVoxelEngine::Uninitialize()
 
 	// Libération du module
 	s_moduleReferenceCounter = 0;
+	delete m_shader;
+
 	NazaraNotice("Uninitialized: VoxelEngine module");
 
 	// Libération des dépendances
