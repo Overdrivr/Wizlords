@@ -26,7 +26,7 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode
         virtual const NzBoundingVolumef& GetBoundingVolume() const;
 		virtual nzSceneNodeType GetSceneNodeType() const;
 		nzVoxelBlockType GetBlockType(NzVector3i location);
-		bool GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray);
+		NzVoxelArray* GetVoxelArray(NzVector3i location);
 
         virtual bool IsDrawable() const;
 
