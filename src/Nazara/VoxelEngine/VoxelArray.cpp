@@ -8,7 +8,10 @@
 
 NzVoxelArray::NzVoxelArray(const NzVector3f& position) : m_position(position)
 {
-
+    for(unsigned int i(0) ; i < m_blocks.size() ; ++i)
+    {
+        m_blocks[i] = nzVoxelBlockType_dirt;
+    }
 }
 
 NzVoxelArray::~NzVoxelArray()
