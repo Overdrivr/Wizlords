@@ -21,8 +21,10 @@ class NAZARA_API NzVoxelChunkMesh
 		NzVoxelChunkMesh();
 		~NzVoxelChunkMesh();
 
-		void GenerateMesh(const NzVoxelTerrain& terrain, NzVector3i chunkLocation);
+        NzVector3i GetLocation() const;
+		void GenerateMesh(NzVoxelTerrain& terrain);
 
+        void SetLocation(const NzVector3i& location);
 	private:
         void GenerateCube(const NzVoxelArray& voxelArray, unsigned int x, unsigned int y, unsigned int z);
 
@@ -30,6 +32,8 @@ class NAZARA_API NzVoxelChunkMesh
 
 		unsigned int m_vertexCount;
 		unsigned int m_faceCount;
+
+		NzVector3i m_location;
 };
 
 #endif // NAZARA_VOXELCHUNKMESH_HPP
