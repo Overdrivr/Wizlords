@@ -14,15 +14,13 @@
 
 namespace
 {
-  static NzVertexBuffer m_vertexBuffer;
   static std::array<float,32> m_topFace;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
 {
     NzRenderer::SetVertexBuffer(&(chunk.m_vertexBuffer));
-    NzRenderer::SetIndexBuffer(&(chunk.m_indexBuffer));
-    NzRenderer::DrawIndexedPrimitives(nzPrimitiveMode_TriangleList,0,chunk.m_indexCount);
+    NzRenderer::DrawPrimitives(nzPrimitiveMode_TriangleStrip,0,chunk.m_vertexCount);
 }
 
 std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzVector3f offset, unsigned int textureIndex)
@@ -65,7 +63,9 @@ bool NzVoxelEngine::Initialize()
 		return false;
 	}
 
-	// Initialisation du module
+    // Initialisation du module
+
+	// Initialisation des faces
 	//Vertex
 	m_topFace[0] = 0.f;
 	m_topFace[1] = 1.f;
@@ -134,7 +134,6 @@ void NzVoxelEngine::Uninitialize()
 
 	// Libération du module
 	s_moduleReferenceCounter = 0;
-    m_vertexBuffer.Reset();
 	NazaraNotice("Uninitialized: VoxelEngine module");
 
 	// Libération des dépendances
