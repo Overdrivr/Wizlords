@@ -15,7 +15,7 @@
 
 class NzVoxelChunkMesh;
 
-class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public NzUpdatable
+class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode
 {
 	public:
 		NzVoxelTerrain();
@@ -24,9 +24,9 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public 
 		virtual void Draw() const;
 
         virtual const NzBoundingVolumef& GetBoundingVolume() const;
-		//virtual nzSceneNodeType GetSceneNodeType() const;
+		virtual nzSceneNodeType GetSceneNodeType() const;
 		nzVoxelBlockType GetBlockType(NzVector3i location);
-		bool GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray) const;
+		bool GetVoxelArray(NzVector3i location, NzVoxelArray* voxelArray);
 
         virtual bool IsDrawable() const;
 
