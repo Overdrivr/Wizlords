@@ -17,13 +17,18 @@ NzVoxelChunkMesh::~NzVoxelChunkMesh()
 
 }
 
-void NzVoxelChunkMesh::GenerateMesh(const NzVoxelTerrain& terrain, NzVector3i chunkLocation)
+NzVector3i NzVoxelChunkMesh::GetLocation() const
+{
+    return m_location;
+}
+
+void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
 {
     m_faceCount = 0;
 
     NzVoxelArray* voxelArray;
 
-    if(!terrain.GetVoxelArray(chunkLocation,voxelArray))
+    if(!terrain.GetVoxelArray(m_location,voxelArray))
     {
         #if NAZARA_VOXELENGINE_SAFE
         NazaraWarning("Could not generate mesh, chunk not found");
@@ -68,4 +73,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
             ++m_faceCount;
             m_vertexCount += 4;
         }
+}
+
+void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
+{
+    m_location = location;
 }
