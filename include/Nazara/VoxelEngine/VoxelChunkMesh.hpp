@@ -26,10 +26,9 @@ class NAZARA_API NzVoxelChunkMesh
 	private:
         void GenerateCube(const NzVoxelArray& voxelArray, unsigned int x, unsigned int y, unsigned int z);
 
-		NzIndexBuffer m_indexBuffer;
 		NzVertexBuffer m_vertexBuffer;
 
-		unsigned int m_indexCount;
+		unsigned int m_vertexCount;
 		unsigned int m_faceCount;
 };
 
