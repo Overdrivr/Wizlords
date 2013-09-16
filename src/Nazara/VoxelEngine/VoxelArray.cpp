@@ -10,7 +10,10 @@ NzVoxelArray::NzVoxelArray(const NzVector3f& position) : m_position(position)
 {
     for(unsigned int i(0) ; i < m_blocks.size() ; ++i)
     {
-        m_blocks[i] = nzVoxelBlockType_dirt;
+        if(i > NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y)
+            m_blocks[i] = nzVoxelBlockType_dirt;
+        else
+            m_blocks[i] = nzVoxelBlockType_empty;
     }
 }
 
