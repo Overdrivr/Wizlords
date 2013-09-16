@@ -10,6 +10,7 @@
 #include <Nazara/VoxelEngine/Config.hpp>
 #include <Nazara/Graphics/Graphics.hpp>
 #include <Nazara/Renderer/Renderer.hpp>
+#include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 namespace
@@ -56,6 +57,16 @@ std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
 	data[24] += offset.x;
 	data[25] += offset.y;
 	data[26] += offset.z;
+/*
+	for(unsigned int i(0) ; i < 4 ; ++i)
+    {
+        std::cout<<" P("<<data[i*8]<<" ; "<<data[i*8+1]<<" ; "<<data[i*8+2]<<std::endl;
+        std::cout<<" N("<<data[i*8+3]<<" ; "<<data[i*8+4]<<" ; "<<data[i*8+5]<<std::endl;
+        std::cout<<"UV("<<data[i*8+6]<<" ; "<<data[i*8+7]<<std::endl;
+    }
+    std::cout<<"------------------------"<<std::endl;*/
+
+    return data;
 }
 
 bool NzVoxelEngine::Initialize()
@@ -98,7 +109,7 @@ bool NzVoxelEngine::Initialize()
 	m_topFace[14] = 1.f;
 	m_topFace[15] = 0.f;
 	//Vertex
-	m_topFace[16] = 1.f;
+	m_topFace[16] = 0.f;
 	m_topFace[17] = 1.f;
 	m_topFace[18] = 1.f;
 	//Normal
@@ -106,10 +117,10 @@ bool NzVoxelEngine::Initialize()
 	m_topFace[20] = 1.f;
 	m_topFace[21] = 0.f;
 	//UV
-	m_topFace[22] = 1.f;
+	m_topFace[22] = 0.f;
 	m_topFace[23] = 1.f;
 	//Vertex
-	m_topFace[24] = 0.f;
+	m_topFace[24] = 1.f;
 	m_topFace[25] = 1.f;
 	m_topFace[26] = 1.f;
 	//Normal
@@ -117,7 +128,7 @@ bool NzVoxelEngine::Initialize()
 	m_topFace[28] = 1.f;
 	m_topFace[29] = 0.f;
 	//UV
-	m_topFace[30] = 0.f;
+	m_topFace[30] = 1.f;
 	m_topFace[31] = 1.f;
 
 	// Shader
