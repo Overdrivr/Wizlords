@@ -5,7 +5,6 @@
 #include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <Nazara/VoxelEngine/Config.hpp>
 #include <Nazara/VoxelEngine/Functions.hpp>
-#include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelChunkMesh::NzVoxelChunkMesh()
@@ -41,7 +40,7 @@ void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
     }
 
     for(unsigned int x(0) ; x < NAZARA_VOXELENGINE_CHUNKSIZE_X ; ++x)
-        //for(unsigned int y(0) ; y < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++y)
+        for(unsigned int y(0) ; y < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++y)
             for(unsigned int z(0) ; z < NAZARA_VOXELENGINE_CHUNKSIZE_Z ; ++z)
             {
                 //GenerateCube(*voxelArray,x,y,z);
@@ -85,7 +84,6 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
         {
             NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
             std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0);
-
             m_vertexBuffer.Fill(data.data(),m_faceCount * 4,4);
             ++m_faceCount;
             m_vertexCount += 4;
