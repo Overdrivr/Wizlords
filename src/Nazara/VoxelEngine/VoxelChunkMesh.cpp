@@ -43,8 +43,7 @@ void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
         for(unsigned int y(0) ; y < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++y)
             for(unsigned int z(0) ; z < NAZARA_VOXELENGINE_CHUNKSIZE_Z ; ++z)
             {
-                //GenerateCube(*voxelArray,x,y,z);
-                GenerateCube(*voxelArray,x,0,z);
+                GenerateCube(*voxelArray,x,y,z);
             }
 }
 
