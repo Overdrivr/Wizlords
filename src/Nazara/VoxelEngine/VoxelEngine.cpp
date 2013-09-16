@@ -18,6 +18,7 @@ namespace
   static std::array<float,32> m_topFace;
   static NzRenderStates m_renderStates;
   static NzShaderProgram* m_shader;
+  static NzIndexBuffer m_indexBuffer;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
@@ -28,7 +29,8 @@ void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
     NzRenderer::SetShaderProgram(m_shader);
 
     NzRenderer::SetVertexBuffer(&(chunk.m_vertexBuffer));
-    NzRenderer::DrawPrimitives(nzPrimitiveMode_TriangleStrip,0,chunk.m_vertexCount);
+    NzRenderer::SetIndexBuffer(&m_indexBuffer);
+    NzRenderer::DrawIndexedPrimitives(nzPrimitiveMode_TriangleList,0,chunk.m_faceCount*6);
 }
 
 std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzVector3f offset, unsigned int textureIndex)
@@ -57,14 +59,6 @@ std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
 	data[24] += offset.x;
 	data[25] += offset.y;
 	data[26] += offset.z;
-/*
-	for(unsigned int i(0) ; i < 4 ; ++i)
-    {
-        std::cout<<" P("<<data[i*8]<<" ; "<<data[i*8+1]<<" ; "<<data[i*8+2]<<std::endl;
-        std::cout<<" N("<<data[i*8+3]<<" ; "<<data[i*8+4]<<" ; "<<data[i*8+5]<<std::endl;
-        std::cout<<"UV("<<data[i*8+6]<<" ; "<<data[i*8+7]<<std::endl;
-    }
-    std::cout<<"------------------------"<<std::endl;*/
 
     return data;
 }
@@ -130,6 +124,38 @@ bool NzVoxelEngine::Initialize()
 	//UV
 	m_topFace[30] = 1.f;
 	m_topFace[31] = 1.f;
+
+	// Index buffer
+	try
+    {
+        m_indexBuffer.Reset(false,NAZARA_VOXELENGINE_MAX_INDEX_AMOUNT,nzBufferStorage_Hardware);
+    }
+    catch (const std::exception& e)
+    {
+        NazaraError("Failed to create buffer: " + NzString(e.what()));
+        Uninitialize();
+        return false;
+    }
+
+	nzUInt16 indexes[NAZARA_VOXELENGINE_MAX_INDEX_AMOUNT] = {0};
+	nzUInt16 index[6] = {0,1,2,1,2,3};
+
+	for(unsigned int i(0) ; i < NAZARA_VOXELENGINE_MAX_FACE_AMOUNT ; ++i)
+	{
+        indexes[i * 6] = index[0] + i*4;
+        indexes[i * 6 + 1] = index[1] + i*4;
+        indexes[i * 6 + 2] = index[2] + i*4;
+        indexes[i * 6 + 3] = index[3] + i*4;
+        indexes[i * 6 + 4] = index[4] + i*4;
+        indexes[i * 6 + 5] = index[5] + i*4;
+	}
+
+	if(!m_indexBuffer.Fill(indexes, 0, NAZARA_VOXELENGINE_MAX_INDEX_AMOUNT))
+	{
+		NazaraError("Failed to initialize voxel engine module : Failed to fill index buffer");
+		Uninitialize();
+		return false;
+	}
 
 	// Shader
 	const char* vertexSource =
@@ -204,6 +230,7 @@ void NzVoxelEngine::Uninitialize()
 
 	// Libération du module
 	s_moduleReferenceCounter = 0;
+	m_indexBuffer.Reset();
 	delete m_shader;
 
 	NazaraNotice("Uninitialized: VoxelEngine module");
