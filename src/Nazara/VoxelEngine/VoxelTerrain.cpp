@@ -5,6 +5,7 @@
 #include <Nazara/VoxelEngine/VoxelTerrain.hpp>
 #include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <iostream>
+#include <Nazara/Noise/Simplex3D.hpp>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelTerrain::NzVoxelTerrain()
@@ -14,7 +15,9 @@ NzVoxelTerrain::NzVoxelTerrain()
     m_meshes.emplace(NzVector3i(0,0,0),NzVoxelChunkMesh());
     m_meshes[NzVector3i(0,0,0)].SetLocation(NzVector3i(0,0,0));
 
-
+    NzSimplex3D simp3(123436789);
+    simp3.SetResolution(1/50.f);
+    m_arrays[NzVector3i(0,0,0)].Init(simp3);
 
     m_meshes[NzVector3i(0,0,0)].GenerateMesh(*this);
     std::cout<<"Face count : "<<m_meshes[NzVector3i(0,0,0)].GetFaceCount()<<std::endl;
