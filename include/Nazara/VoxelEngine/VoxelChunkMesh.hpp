@@ -23,6 +23,8 @@ class NAZARA_API NzVoxelChunkMesh
 
         NzVector3i GetLocation() const;
 		void GenerateMesh(NzVoxelTerrain& terrain);
+		unsigned int GetFaceCount() const;
+		unsigned int GetVertexCount() const;
 
         void SetLocation(const NzVector3i& location);
 	private:

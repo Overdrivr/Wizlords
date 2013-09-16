@@ -5,10 +5,13 @@
 #include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <Nazara/VoxelEngine/Config.hpp>
 #include <Nazara/VoxelEngine/Functions.hpp>
+#include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelChunkMesh::NzVoxelChunkMesh()
 {
+    m_vertexCount = 0;
+    m_faceCount = 0;
     m_vertexBuffer.Reset(NzVertexDeclaration::Get(nzVertexLayout_XYZ_Normal_UV),NAZARA_VOXELENGINE_MAX_VERTEX_AMOUNT, nzBufferStorage_Hardware);
 }
 
@@ -25,6 +28,7 @@ NzVector3i NzVoxelChunkMesh::GetLocation() const
 void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
 {
     m_faceCount = 0;
+    m_vertexCount = 0;
 
     NzVoxelArray* voxelArray = terrain.GetVoxelArray(m_location);
 
@@ -37,11 +41,22 @@ void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
     }
 
     for(unsigned int x(0) ; x < NAZARA_VOXELENGINE_CHUNKSIZE_X ; ++x)
-        for(unsigned int y(0) ; y < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++y)
+        //for(unsigned int y(0) ; y < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++y)
             for(unsigned int z(0) ; z < NAZARA_VOXELENGINE_CHUNKSIZE_Z ; ++z)
             {
-                GenerateCube(*voxelArray,x,y,z);
+                //GenerateCube(*voxelArray,x,y,z);
+                GenerateCube(*voxelArray,x,0,z);
             }
+}
+
+unsigned int NzVoxelChunkMesh::GetFaceCount() const
+{
+    return m_faceCount;
+}
+
+unsigned int NzVoxelChunkMesh::GetVertexCount() const
+{
+    return m_vertexCount;
 }
 
 void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int x, unsigned int y, unsigned int z)
@@ -69,7 +84,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
         if(IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y + 1,Z))))
         {
             NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData((nzVoxelFaceOrientation_top),offset,0).data(),m_faceCount * 4,4);
+            std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0);
+
+            m_vertexBuffer.Fill(data.data(),m_faceCount * 4,4);
             ++m_faceCount;
             m_vertexCount += 4;
         }
