@@ -79,6 +79,7 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     //TOP
     if(Y + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Y)
+    {
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y + 1,Z))))
         {
             NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
@@ -86,10 +87,11 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
             ++m_faceCount;
             m_vertexCount += 4;
         }
+    }
     else
-        {
-            //NEIGHBOR TOP CHUNK
-        }
+    {
+        //NEIGHBOR TOP CHUNK
+    }
 }
 
 void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
