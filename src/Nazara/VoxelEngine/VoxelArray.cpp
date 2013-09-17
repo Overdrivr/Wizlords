@@ -10,11 +10,8 @@
 NzVoxelArray::NzVoxelArray(const NzVector3f& position) : m_position(position)
 {
     for(unsigned int i(0) ; i < m_blocks.size() ; ++i)
-    {/*
-        if(i > NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y)*/
-            m_blocks[i] = nzVoxelBlockType_dirt;
-        /*else
-            m_blocks[i] = nzVoxelBlockType_empty;*/
+    {
+        m_blocks[i] = nzVoxelBlockType_dirt;
     }
 }
 
@@ -28,9 +25,9 @@ nzVoxelBlockType NzVoxelArray::GetBlockType(NzVector3ui location) const
     if(location.x >= 0 &&
        location.y >= 0 &&
        location.z >= 0 &&
-       location.x < static_cast<unsigned int>(NAZARA_VOXELENGINE_CHUNKSIZE_X) &&
-       location.y < static_cast<unsigned int>(NAZARA_VOXELENGINE_CHUNKSIZE_Y) &&
-       location.z < static_cast<unsigned int>(NAZARA_VOXELENGINE_CHUNKSIZE_Z))
+       location.x < NAZARA_VOXELENGINE_CHUNKSIZE_X &&
+       location.y < NAZARA_VOXELENGINE_CHUNKSIZE_Y &&
+       location.z < NAZARA_VOXELENGINE_CHUNKSIZE_Z)
        {
            return m_blocks[location.x +
                            location.y * NAZARA_VOXELENGINE_CHUNKSIZE_X +
