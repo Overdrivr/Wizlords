@@ -78,14 +78,17 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     int Z = static_cast<int>(z);
 
     //TOP
-    if(Y + 1 >= 0)
+    if(Y + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Y)
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y + 1,Z))))
         {
             NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0);
-            m_vertexBuffer.Fill(data.data(),m_faceCount * 4,4);
+            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0).data(),m_faceCount * 4,4);
             ++m_faceCount;
             m_vertexCount += 4;
+        }
+    else
+        {
+            //NEIGHBOR TOP CHUNK
         }
 }
 
