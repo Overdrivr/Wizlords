@@ -4,16 +4,17 @@
 
 #include <Nazara/VoxelEngine/VoxelArray.hpp>
 #include <Nazara/Noise/Abstract3DNoise.hpp>
+#include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelArray::NzVoxelArray(const NzVector3f& position) : m_position(position)
 {
     for(unsigned int i(0) ; i < m_blocks.size() ; ++i)
-    {
-        if(i > NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y)
+    {/*
+        if(i > NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y)*/
             m_blocks[i] = nzVoxelBlockType_dirt;
-        else
-            m_blocks[i] = nzVoxelBlockType_empty;
+        /*else
+            m_blocks[i] = nzVoxelBlockType_empty;*/
     }
 }
 
@@ -55,9 +56,9 @@ void NzVoxelArray::Init(NzAbstract3DNoise& densitySource)
                                                             m_position.y + static_cast<float>(j),
                                                             m_position.z + static_cast<float>(k));
 
-                nzVoxelBlockType block;
 
-                (density > 0.2f) ? block = nzVoxelBlockType_dirt : nzVoxelBlockType_empty;
+                nzVoxelBlockType block;
+                block = (density > 0.5f) ? nzVoxelBlockType_dirt : nzVoxelBlockType_empty;
 
                 m_blocks[i +
                          j * NAZARA_VOXELENGINE_CHUNKSIZE_X +
