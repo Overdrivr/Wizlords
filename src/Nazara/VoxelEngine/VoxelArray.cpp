@@ -34,7 +34,10 @@ nzVoxelBlockType NzVoxelArray::GetBlockType(NzVector3ui location) const
                            location.z * NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y];
        }
        else
-            return nzVoxelBlockType_nonvalid;
+       {
+           return nzVoxelBlockType_nonvalid;
+       }
+
 }
 
 NzVector3f NzVoxelArray::GetPosition() const

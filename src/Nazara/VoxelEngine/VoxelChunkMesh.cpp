@@ -5,6 +5,7 @@
 #include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <Nazara/VoxelEngine/Config.hpp>
 #include <Nazara/VoxelEngine/Functions.hpp>
+#include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelChunkMesh::NzVoxelChunkMesh()
@@ -107,6 +108,38 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     else
     {
         //NEIGHBOR LEFT CHUNK
+    }
+
+    //RIGHT
+    if(Z + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Z)
+    {
+        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z+1))))
+        {
+            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_right,offset,0).data(),m_faceCount * 4,4);
+            ++m_faceCount;
+            m_vertexCount += 4;
+        }
+    }
+    else
+    {
+        //NEIGHBOR RIGHT CHUNK
+    }
+
+    //FRONT
+    if(X - 1 < 0)
+    {
+        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X - 1,Y,Z))))
+        {
+            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_front,offset,0).data(),m_faceCount * 4,4);
+            ++m_faceCount;
+            m_vertexCount += 4;
+        }
+    }
+    else
+    {
+        //NEIGHBOR FRONT CHUNK
     }
 }
 
