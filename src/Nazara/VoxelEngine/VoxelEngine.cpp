@@ -19,6 +19,7 @@ namespace
   static std::array<float,32> m_leftFace;
   static std::array<float,32> m_rightFace;
   static std::array<float,32> m_frontFace;
+  static std::array<float,32> m_backFace;
   static NzRenderStates m_renderStates;
   static NzShaderProgram* m_shader;
   static NzIndexBuffer m_indexBuffer;
@@ -56,6 +57,10 @@ std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
 
         case nzVoxelFaceOrientation_front :
             data = m_frontFace;
+        break;
+
+        case nzVoxelFaceOrientation_back :
+            data = m_backFace;
         break;
     }
 
@@ -253,6 +258,27 @@ bool NzVoxelEngine::Initialize()
 	m_frontFace[24] = 0.f;   m_frontFace[27] = 1.f;   m_frontFace[30] = 1.f;
 	m_frontFace[25] = 1.f;   m_frontFace[28] = 0.f;   m_frontFace[31] = 1.f;
 	m_frontFace[26] = 1.f;   m_frontFace[29] = 0.f;
+
+	// ------BACK-------
+	//Vertex 1              //Normal                //UV
+	m_backFace[0] = 0.f;    m_backFace[3] = 1.f;    m_backFace[6] = 0.f;
+	m_backFace[1] = 0.f;    m_backFace[4] = 0.f;    m_backFace[7] = 0.f;
+	m_backFace[2] = 0.f;    m_backFace[5] = 0.f;
+
+	//Vertex 2              //Normal                //UV
+	m_backFace[8] = 0.f;    m_backFace[11] = 1.f;   m_backFace[14] = 1.f;
+	m_backFace[9] = 1.f;    m_backFace[12] = 0.f;   m_backFace[15] = 0.f;
+	m_backFace[10] = 0.f;   m_backFace[13] = 0.f;
+
+	//Vertex 3              //Normal                //UV
+	m_backFace[16] = 0.f;   m_backFace[19] = 1.f;   m_backFace[22] = 0.f;
+	m_backFace[17] = 0.f;   m_backFace[20] = 0.f;   m_backFace[23] = 1.f;
+	m_backFace[18] = 1.f;   m_backFace[21] = 0.f;
+
+	//Vertex 4              //Normal                //UV
+	m_backFace[24] = 0.f;   m_backFace[27] = 1.f;   m_backFace[30] = 1.f;
+	m_backFace[25] = 1.f;   m_backFace[28] = 0.f;   m_backFace[31] = 1.f;
+	m_backFace[26] = 1.f;   m_backFace[29] = 0.f;
 
 	// Index buffer
 	try
