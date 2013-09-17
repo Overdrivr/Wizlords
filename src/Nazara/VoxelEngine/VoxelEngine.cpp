@@ -16,6 +16,7 @@
 namespace
 {
   static std::array<float,32> m_topFace;
+  static std::array<float,32> m_leftFace;
   static NzRenderStates m_renderStates;
   static NzShaderProgram* m_shader;
   static NzIndexBuffer m_indexBuffer;
@@ -41,6 +42,10 @@ std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
     {
         case nzVoxelFaceOrientation_top :
             data = m_topFace;
+        break;
+
+        case nzVoxelFaceOrientation_left :
+            data = m_leftFace;
         break;
     }
 
@@ -80,7 +85,8 @@ bool NzVoxelEngine::Initialize()
     m_renderStates.parameters[nzRendererParameter_DepthBuffer] = true;
 
 	// Initialisation des faces
-	//Vertex
+	// ---------TOP------------
+	//Vertex 1
 	m_topFace[0] = 0.f;
 	m_topFace[1] = 1.f;
 	m_topFace[2] = 0.f;
@@ -91,7 +97,7 @@ bool NzVoxelEngine::Initialize()
 	//UV
 	m_topFace[6] = 0.f;
 	m_topFace[7] = 0.f;
-	//Vertex
+	//Vertex 2
 	m_topFace[8] = 1.f;
 	m_topFace[9] = 1.f;
 	m_topFace[10] = 0.f;
@@ -102,7 +108,7 @@ bool NzVoxelEngine::Initialize()
 	//UV
 	m_topFace[14] = 1.f;
 	m_topFace[15] = 0.f;
-	//Vertex
+	//Vertex 3
 	m_topFace[16] = 0.f;
 	m_topFace[17] = 1.f;
 	m_topFace[18] = 1.f;
@@ -113,7 +119,7 @@ bool NzVoxelEngine::Initialize()
 	//UV
 	m_topFace[22] = 0.f;
 	m_topFace[23] = 1.f;
-	//Vertex
+	//Vertex 4
 	m_topFace[24] = 1.f;
 	m_topFace[25] = 1.f;
 	m_topFace[26] = 1.f;
@@ -124,6 +130,52 @@ bool NzVoxelEngine::Initialize()
 	//UV
 	m_topFace[30] = 1.f;
 	m_topFace[31] = 1.f;
+
+	// ------LEFT-------
+	//Vertex 1
+	m_leftFace[0] = 1.f;
+	m_leftFace[1] = 0.f;
+	m_leftFace[2] = 0.f;
+	//Normal
+	m_leftFace[3] = 1.f;
+	m_leftFace[4] = 0.f;
+	m_leftFace[5] = 0.f;
+	//UV
+	m_leftFace[6] = 0.f;
+	m_leftFace[7] = 0.f;
+	//Vertex 2
+	m_leftFace[8] = 1.f;
+	m_leftFace[9] = 1.f;
+	m_leftFace[10] = 0.f;
+	//Normal
+	m_leftFace[11] = 1.f;
+	m_leftFace[12] = 0.f;
+	m_leftFace[13] = 0.f;
+	//UV
+	m_leftFace[14] = 1.f;
+	m_leftFace[15] = 0.f;
+	//Vertex 3
+	m_leftFace[16] = 1.f;
+	m_leftFace[17] = 0.f;
+	m_leftFace[18] = 1.f;
+	//Normal
+	m_leftFace[19] = 1.f;
+	m_leftFace[20] = 0.f;
+	m_leftFace[21] = 0.f;
+	//UV
+	m_leftFace[22] = 0.f;
+	m_leftFace[23] = 1.f;
+	//Vertex 4
+	m_leftFace[24] = 1.f;
+	m_leftFace[25] = 1.f;
+	m_leftFace[26] = 1.f;
+	//Normal
+	m_leftFace[27] = 1.f;
+	m_leftFace[28] = 0.f;
+	m_leftFace[29] = 0.f;
+	//UV
+	m_leftFace[30] = 1.f;
+	m_leftFace[31] = 1.f;
 
 	// Index buffer
 	try
