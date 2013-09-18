@@ -78,85 +78,126 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     int Y = static_cast<int>(y);
     int Z = static_cast<int>(z);
 
+    bool drawFace = false;
+
     //TOP
     if(Y + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Y)
     {
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y + 1,Z))))
         {
-            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0).data(),m_faceCount * 4,4);
-            ++m_faceCount;
-            m_vertexCount += 4;
+            drawFace = true;
         }
     }
     else
     {
         //NEIGHBOR TOP CHUNK
+        drawFace = true;
     }
+
+    if(drawFace)
+    {
+        NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+        m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0).data(),m_faceCount * 4,4);
+        ++m_faceCount;
+        m_vertexCount += 4;
+    }
+
+    drawFace = false;
 
     //LEFT
     if(X + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_X)
     {
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X + 1,Y,Z))))
         {
-            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_left,offset,0).data(),m_faceCount * 4,4);
-            ++m_faceCount;
-            m_vertexCount += 4;
+            drawFace = true;
         }
     }
     else
     {
         //NEIGHBOR LEFT CHUNK
+        drawFace = true;
     }
+
+    if(drawFace)
+    {
+        NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+        m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_left,offset,0).data(),m_faceCount * 4,4);
+        ++m_faceCount;
+        m_vertexCount += 4;
+    }
+
+    drawFace = false;
 
     //RIGHT
     if(Z + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Z)
     {
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z+1))))
         {
-            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_right,offset,0).data(),m_faceCount * 4,4);
-            ++m_faceCount;
-            m_vertexCount += 4;
+            drawFace = true;
         }
     }
     else
     {
         //NEIGHBOR RIGHT CHUNK
+        drawFace = true;
     }
+
+    if(drawFace)
+    {
+        NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+        m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_right,offset,0).data(),m_faceCount * 4,4);
+        ++m_faceCount;
+        m_vertexCount += 4;
+    }
+
+    drawFace = false;
 
     //FRONT
     if(X - 1 < 0)
     {
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X - 1,Y,Z))))
         {
-            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_front,offset,0).data(),m_faceCount * 4,4);
-            ++m_faceCount;
-            m_vertexCount += 4;
+            drawFace = true;
         }
     }
     else
     {
         //NEIGHBOR FRONT CHUNK
+        drawFace = true;
     }
+
+    if(drawFace)
+    {
+        NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+        m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_front,offset,0).data(),m_faceCount * 4,4);
+        ++m_faceCount;
+        m_vertexCount += 4;
+    }
+
+    drawFace = false;
 
     //BACK
     if(Z - 1 < 0)
     {
         if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z-1))))
         {
-            NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
-            m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_back,offset,0).data(),m_faceCount * 4,4);
-            ++m_faceCount;
-            m_vertexCount += 4;
+            drawFace = true;
         }
     }
     else
     {
         //NEIGHBOR FRONT CHUNK
+        drawFace = true;
     }
+
+    if(drawFace)
+    {
+        NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+        m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_back,offset,0).data(),m_faceCount * 4,4);
+        ++m_faceCount;
+        m_vertexCount += 4;
+    }
+    drawFace = false;
 }
 
 void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
