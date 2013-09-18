@@ -129,9 +129,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     drawFace = false;
 
     //RIGHT
-    if(Z + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Z)
+    if(X - 1 >= 0)
     {
-        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z+1))))
+        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X - 1,Y,Z))))
         {
             drawFace = true;
         }
@@ -153,9 +153,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     drawFace = false;
 
     //FRONT
-    if(X - 1 < 0)
+    if(Z + 1 < NAZARA_VOXELENGINE_CHUNKSIZE_Z)
     {
-        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X - 1,Y,Z))))
+        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z + 1))))
         {
             drawFace = true;
         }
@@ -177,9 +177,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     drawFace = false;
 
     //BACK
-    if(Z - 1 < 0)
+    if(Z - 1 >= 0)
     {
-        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z-1))))
+        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y,Z - 1))))
         {
             drawFace = true;
         }
