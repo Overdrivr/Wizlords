@@ -198,6 +198,28 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
         m_vertexCount += 4;
     }
     drawFace = false;
+
+    //BOTTOM
+    if(Y - 1 >= 0)
+    {
+        if(!IsSolid(voxelArray.GetBlockType(NzVector3ui(X,Y - 1,Z))))
+        {
+            drawFace = true;
+        }
+    }
+    else
+    {
+        //NEIGHBOR BOTTOM CHUNK
+        drawFace = true;
+    }
+
+    if(drawFace)
+    {
+        NzVector3f offset(static_cast<float>(X),static_cast<float>(Y),static_cast<float>(Z));
+        m_vertexBuffer.Fill(NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_bottom,offset,0).data(),m_faceCount * 4,4);
+        ++m_faceCount;
+        m_vertexCount += 4;
+    }
 }
 
 void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
