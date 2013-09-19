@@ -20,6 +20,7 @@ namespace
   static std::array<float,32> m_rightFace;
   static std::array<float,32> m_frontFace;
   static std::array<float,32> m_backFace;
+  static std::array<float,32> m_bottomFace;
   static NzRenderStates m_renderStates;
   static NzShaderProgram* m_shader;
   static NzIndexBuffer m_indexBuffer;
@@ -61,6 +62,11 @@ std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
 
         case nzVoxelFaceOrientation_back :
             data = m_backFace;
+        break;
+
+        case nzVoxelFaceOrientation_bottom :
+        default :
+            data = m_bottomFace;
         break;
     }
 
@@ -204,6 +210,28 @@ bool NzVoxelEngine::Initialize()
 	m_backFace[24] = 1.f;   m_backFace[27] = 1.f;   m_backFace[30] = 1.f;
 	m_backFace[25] = 1.f;   m_backFace[28] = 0.f;   m_backFace[31] = 1.f;
 	m_backFace[26] = 0.f;   m_backFace[29] = 0.f;
+
+    // ---------BOTTOM------------
+	//Vertex 1                  //Normal                    //UV
+	m_bottomFace[0] = 0.f;      m_bottomFace[3] = 0.f;      m_bottomFace[6] = 0.f;
+	m_bottomFace[1] = 0.f;      m_bottomFace[4] = -1.f;     m_bottomFace[7] = 0.f;
+	m_bottomFace[2] = 0.f;      m_bottomFace[5] = 0.f;
+
+	//Vertex 2                  //Normal                    //UV
+	m_bottomFace[8] = 1.f;      m_bottomFace[11] = 0.f;     m_bottomFace[14] = 1.f;
+	m_bottomFace[9] = 0.f;      m_bottomFace[12] = -1.f;    m_bottomFace[15] = 0.f;
+	m_bottomFace[10] = 0.f;     m_bottomFace[13] = 0.f;
+
+	//Vertex 3                  //Normal                    //UV
+	m_bottomFace[16] = 0.f;     m_bottomFace[19] = 0.f;     m_bottomFace[22] = 0.f;
+	m_bottomFace[17] = 0.f;     m_bottomFace[20] = -1.f;    m_bottomFace[23] = 1.f;
+	m_bottomFace[18] = 1.f;     m_bottomFace[21] = 0.f;
+
+	//Vertex 4                  //Normal                    //UV
+	m_bottomFace[24] = 1.f;     m_bottomFace[27] = 0.f;     m_bottomFace[30] = 1.f;
+	m_bottomFace[25] = 0.f;     m_bottomFace[28] = -1.f;    m_bottomFace[31] = 1.f;
+	m_bottomFace[26] = 1.f;     m_bottomFace[29] = 0.f;
+
 
 	// Index buffer
 	try
