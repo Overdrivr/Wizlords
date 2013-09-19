@@ -8,6 +8,8 @@
 #include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
+//TODO : Créer le buffer une fois le mesh généré pour ne pas gaspiller de vram
+
 NzVoxelChunkMesh::NzVoxelChunkMesh()
 {
     m_vertexCount = 0;
