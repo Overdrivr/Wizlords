@@ -24,6 +24,7 @@ namespace
   static NzRenderStates m_renderStates;
   static NzShaderProgram* m_shader;
   static NzIndexBuffer m_indexBuffer;
+  static NzTexture* m_texture;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
@@ -315,6 +316,18 @@ bool NzVoxelEngine::Initialize()
         return false;
     }
 
+    // Chargement des textures
+    m_texture = new NzTexture();
+
+    if(!m_texture->LoadFromFile("resources/debug_texture_pack.png"))
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to load texture pack");
+        delete m_shader;
+        delete m_texture;
+        return false;
+    }
+    m_texture->SetPersistent(false);
+
 	NazaraNotice("Initialized: VoxelEngine module");
 
 	return true;
@@ -340,6 +353,7 @@ void NzVoxelEngine::Uninitialize()
 	s_moduleReferenceCounter = 0;
 	m_indexBuffer.Reset();
 	delete m_shader;
+    delete m_texture;
 
 	NazaraNotice("Uninitialized: VoxelEngine module");
 
