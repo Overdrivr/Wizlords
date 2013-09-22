@@ -32,10 +32,11 @@ void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
     NzRenderer::SetMatrix(nzMatrixType_World, NzMatrix4f::Identity());
     NzRenderer::SetRenderStates(m_renderStates);
     NzRenderer::SetFaceFilling(nzFaceFilling_Fill);
-    nzUInt8 textureUnit;
-    m_shader->SendTexture(m_shader->GetUniformLocation("texUnit"), m_texture, &textureUnit);
-    NzRenderer::SetTexture(textureUnit,m_texture);
+    //nzUInt8 textureUnit;
+
+    //NzRenderer::SetTexture(textureUnit,m_texture);
     NzRenderer::SetShaderProgram(m_shader);
+    m_shader->SendTexture(m_shader->GetUniformLocation("texUnit"), m_texture, 0);
 
     NzRenderer::SetVertexBuffer(&(chunk.m_vertexBuffer));
     NzRenderer::SetIndexBuffer(&m_indexBuffer);
@@ -271,7 +272,7 @@ bool NzVoxelEngine::Initialize()
 
 	// Shader
 	const char* vertexSource =
-    "#version 140\n"
+    "#version 330\n"
     "in vec3 VertexPosition;\n"
     "in vec3 VertexNormal;\n"
     "in vec2 textureCoord;\n"
@@ -289,17 +290,16 @@ bool NzVoxelEngine::Initialize()
     "}\n";
 
     const char* fragmentSource =
-    "#version 140\n"
+    "#version 330\n"
     "out vec4 out_Color;\n"
     "in vec3 normal;\n"
     "in vec3 position;\n"
-    "in vec2 texCoord;\n"
+    "in vec2 texCoords;\n"
     "uniform sampler2D texUnit;\n"
 
     "void main()\n"
     "{\n"
-    "out_Color = texture2D(texUnit, texCoord);\n"
-    //"out_Color = vec4(0.0,1.0,0.0,1.0);\n"
+    "out_Color = texture(texUnit, texCoords);\n"
     "}\n";
 
     m_shader = new NzShaderProgram(nzShaderLanguage_GLSL);
