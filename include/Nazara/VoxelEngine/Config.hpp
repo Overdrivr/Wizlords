@@ -2,8 +2,6 @@
 	VoxelEngine
 
 	Copyright (C) 2013 Rémi Bèges (remi[dot]beges[at]laposte[net]). All rights reserved.
-
-	This is an authorized fork of the open-source NazaraEngine.
 */
 
 #pragma once
@@ -20,14 +18,17 @@
 #define NAZARA_VOXELENGINE_SAFE 1
 
 //Les dimensions d'un chunk
-const unsigned int NAZARA_VOXELENGINE_CHUNKSIZE_X = 24;
-const unsigned int NAZARA_VOXELENGINE_CHUNKSIZE_Y = 24;
-const unsigned int NAZARA_VOXELENGINE_CHUNKSIZE_Z = 24;
+const unsigned int NAZARA_VOXELENGINE_CHUNKSIZE_X = 32;
+const unsigned int NAZARA_VOXELENGINE_CHUNKSIZE_Y = 32;
+const unsigned int NAZARA_VOXELENGINE_CHUNKSIZE_Z = 32;
 
 const unsigned int NAZARA_VOXELENGINE_MAX_CUBE_AMOUNT = NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y * NAZARA_VOXELENGINE_CHUNKSIZE_Z / 3;
 const unsigned int NAZARA_VOXELENGINE_MAX_FACE_AMOUNT = NAZARA_VOXELENGINE_MAX_CUBE_AMOUNT * 6;
 const unsigned int NAZARA_VOXELENGINE_MAX_INDEX_AMOUNT = NAZARA_VOXELENGINE_MAX_CUBE_AMOUNT * 6 * 6;
 const unsigned int NAZARA_VOXELENGINE_MAX_VERTEX_AMOUNT = NAZARA_VOXELENGINE_MAX_CUBE_AMOUNT * 6 * 4;
+
+const unsigned int NAZARA_VOXELENGINE_TEXTURE_SIZE_X = 2;
+const unsigned int NAZARA_VOXELENGINE_TEXTURE_SIZE_Y = 1;
 
 
 #endif // NAZARA_CONFIG_VOXELENGINE_HPP
