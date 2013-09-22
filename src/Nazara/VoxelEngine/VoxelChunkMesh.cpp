@@ -39,7 +39,6 @@ void NzVoxelChunkMesh::GenerateMesh(NzVoxelTerrain& terrain)
         #endif
         return;
     }
-        std::cout<<"Generated"<<std::endl;
 
     for(unsigned int x(0) ; x < NAZARA_VOXELENGINE_CHUNKSIZE_X ; ++x)
         for(unsigned int y(0) ; y < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++y)
