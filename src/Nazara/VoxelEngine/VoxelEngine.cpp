@@ -22,9 +22,7 @@ namespace
   static std::array<float,32> m_backFace;
   static std::array<float,32> m_bottomFace;
   static NzRenderStates m_renderStates;
-  static NzShaderProgram* m_shader;
   static NzIndexBuffer m_indexBuffer;
-  static NzTexture* m_texture;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
@@ -32,11 +30,6 @@ void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
     NzRenderer::SetMatrix(nzMatrixType_World, NzMatrix4f::Identity());
     NzRenderer::SetRenderStates(m_renderStates);
     NzRenderer::SetFaceFilling(nzFaceFilling_Fill);
-    //nzUInt8 textureUnit;
-
-    //NzRenderer::SetTexture(textureUnit,m_texture);
-    NzRenderer::SetShaderProgram(m_shader);
-    m_shader->SendTexture(m_shader->GetUniformLocation("texUnit"), m_texture, 0);
 
     NzRenderer::SetVertexBuffer(&(chunk.m_vertexBuffer));
     NzRenderer::SetIndexBuffer(&m_indexBuffer);
@@ -278,72 +271,6 @@ bool NzVoxelEngine::Initialize()
 		return false;
 	}
 
-	// Shader
-	const char* vertexSource =
-    "#version 330\n"
-    "in vec3 VertexPosition;\n"
-    "in vec3 VertexNormal;\n"
-    "in vec2 textureCoord;\n"
-    "uniform mat4 WorldViewProjMatrix;\n"
-    "out vec3 normal;\n"
-    "out vec3 position;\n"
-    "smooth out vec2 texCoords;\n"
-
-    "void main()\n"
-    "{\n"
-	"normal = VertexNormal;\n"
-	"position = VertexPosition;\n"
-	"texCoords = textureCoord;\n"
-    "gl_Position = WorldViewProjMatrix * vec4(VertexPosition, 1.0);\n"
-    "}\n";
-
-    const char* fragmentSource =
-    "#version 330\n"
-    "out vec4 out_Color;\n"
-    "in vec3 normal;\n"
-    "in vec3 position;\n"
-    "in vec2 texCoords;\n"
-    "uniform sampler2D texUnit;\n"
-
-    "void main()\n"
-    "{\n"
-    "out_Color = texture(texUnit, texCoords);\n"
-    "}\n";
-
-    m_shader = new NzShaderProgram(nzShaderLanguage_GLSL);
-
-    if (!m_shader->LoadShader(nzShaderType_Fragment, fragmentSource))
-    {
-        NazaraError("Failed to initialize voxel renderer module : Failed to load fragment shader");
-        NzVoxelEngine::Uninitialize();
-        return false;
-    }
-
-    if (!m_shader->LoadShader(nzShaderType_Vertex, vertexSource))
-    {
-        NazaraError("Failed to initialize voxel renderer module : Failed to load vertex shader");
-        NzVoxelEngine::Uninitialize();
-        return false;
-    }
-
-    if (!m_shader->Compile())
-    {
-        NazaraError("Failed to initialize voxel renderer module : Failed to compile shader");
-        NzVoxelEngine::Uninitialize();
-        return false;
-    }
-
-    // Chargement des textures
-    m_texture = new NzTexture();
-
-    if(!m_texture->LoadFromFile("resources/debug_texture_pack.png"))
-    {
-        NazaraError("Failed to initialize voxel renderer module : Failed to load texture pack");
-        NzVoxelEngine::Uninitialize();
-        return false;
-    }
-    m_texture->SetPersistent(false);
-
 	NazaraNotice("Initialized: VoxelEngine module");
 
 	return true;
@@ -368,8 +295,6 @@ void NzVoxelEngine::Uninitialize()
 	// Libération du module
 	s_moduleReferenceCounter = 0;
 	m_indexBuffer.Reset();
-	delete m_shader;
-    delete m_texture;
 
 	NazaraNotice("Uninitialized: VoxelEngine module");
 

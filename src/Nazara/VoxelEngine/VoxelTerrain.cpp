@@ -5,6 +5,7 @@
 #include <Nazara/VoxelEngine/VoxelTerrain.hpp>
 #include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
 #include <iostream>
+#include <Nazara/Renderer.hpp>
 #include <Nazara/Noise/Simplex3D.hpp>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
@@ -16,21 +17,42 @@ NzVoxelTerrain::NzVoxelTerrain()
     m_meshes[NzVector3i(0,0,0)].SetLocation(NzVector3i(0,0,0));
 
     NzSimplex3D simp3(123436789);
-    simp3.SetResolution(1/50.f);
+    simp3.SetResolution(1/30.f);
     m_arrays[NzVector3i(0,0,0)].Init(simp3);
 
     m_meshes[NzVector3i(0,0,0)].GenerateMesh(*this);
     std::cout<<"Face count : "<<m_meshes[NzVector3i(0,0,0)].GetFaceCount()<<std::endl;
     std::cout<<"Vertex count : "<<m_meshes[NzVector3i(0,0,0)].GetVertexCount()<<" / "<<NAZARA_VOXELENGINE_MAX_VERTEX_AMOUNT<<std::endl;
+
+
+    //Lights
+    m_light = new NzLight(nzLightType_Directional);
+
+    // Shader generation & Material
+	m_material.EnableLighting(true);
+    m_material.SetDiffuseMap("resources/debug_texture_pack.png");
+
 }
 
 NzVoxelTerrain::~NzVoxelTerrain()
 {
-
+    delete m_light;
 }
 
 void NzVoxelTerrain::Draw() const
 {
+    NzRenderer::SetShaderProgram(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None));
+
+    m_material.Apply(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None));
+
+    m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->SendColor(
+        m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->GetUniformLocation(nzShaderUniform_SceneAmbient), GetScene()->GetAmbientColor());
+
+    m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->SendVector(
+        m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->GetUniformLocation(nzShaderUniform_EyePosition), GetScene()->GetViewer()->GetEyePosition());
+
+    m_light->Enable(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None),1.0);
+
     NzVoxelEngine::DrawChunk(m_meshes.at(NzVector3i(0,0,0)));
 }
 

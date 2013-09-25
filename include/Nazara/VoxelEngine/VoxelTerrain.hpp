@@ -41,6 +41,9 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode
 	private:
 		std::map<NzVector3i, NzVoxelArray> m_arrays;
 		std::map<NzVector3i, NzVoxelChunkMesh> m_meshes;
+
+		NzMaterial m_material;
+        NzLight* m_light;
 };
 
 #endif // NAZARA_VOXELTERRAIN_HPP
