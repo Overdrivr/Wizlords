@@ -32,7 +32,6 @@ NzVoxelTerrain::NzVoxelTerrain()
 	m_material.EnableLighting(true);
 
     m_material.SetDiffuseMap("resources/debug_texture_pack.png");
-
 }
 
 NzVoxelTerrain::~NzVoxelTerrain()
@@ -88,9 +87,25 @@ bool NzVoxelTerrain::IsDrawable() const
     return true;
 }
 
+void NzVoxelTerrain::Init()
+{
+    //Update register
+    GetScene()->RegisterForUpdate(this);
+}
+
 bool NzVoxelTerrain::SetBlockType(NzVector3i location, nzVoxelBlockType newType)
 {
     NazaraError("A IMPLEMENTER");
+}
+
+void NzVoxelTerrain::Update()
+{
+    if (m_clock.GetMilliseconds() >= 1000/60)
+    {
+        m_light->Rotate(NzEulerAnglesf(0.01f * m_clock.GetMilliseconds(),0.f,0.f));
+        m_clock.Restart();
+    }
+
 }
 
 void NzVoxelTerrain::AddToRenderQueue(NzAbstractRenderQueue* renderQueue) const

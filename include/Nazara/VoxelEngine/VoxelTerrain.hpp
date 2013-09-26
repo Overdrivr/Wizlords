@@ -11,11 +11,12 @@
 #include <Nazara/VoxelEngine/VoxelArray.hpp>
 #include <Nazara/Math/Vector3.hpp>
 #include <Nazara/Graphics.hpp>
+#include <Nazara/Core/Clock.hpp>
 #include <map>
 
 class NzVoxelChunkMesh;
 
-class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode
+class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public NzUpdatable
 {
 	public:
 		NzVoxelTerrain();
@@ -29,9 +30,11 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode
 		NzVoxelArray* GetVoxelArray(NzVector3i location);
 
         virtual bool IsDrawable() const;
+        void Init();
 
         bool SetBlockType(NzVector3i location, nzVoxelBlockType newType);
 
+        virtual void Update();
     protected:
         virtual void AddToRenderQueue(NzAbstractRenderQueue* renderQueue) const;
         virtual bool FrustumCull(const NzFrustumf& frustum);
@@ -44,6 +47,7 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode
 
 		NzMaterial m_material;
         NzLight* m_light;
+        NzClock m_clock;
 };
 
 #endif // NAZARA_VOXELTERRAIN_HPP
