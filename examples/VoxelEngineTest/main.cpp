@@ -26,6 +26,7 @@ int main()
 
 	NzVoxelTerrain terrain;
 	terrain.SetParent(scene);
+	terrain.Init();
 
 	NzTexture* texture = new NzTexture;
 	if (texture->LoadCubemapFromFile("resources/skybox-space.png"))
@@ -85,6 +86,7 @@ int main()
 
 	bool smoothMovement = true;
 	NzVector3f targetPos = camera.GetPosition();
+	bool camMode = true;
 
 	while (window.IsOpen())
 	{
@@ -95,6 +97,9 @@ int main()
 			{
 				case nzEventType_MouseMoved:
 				{
+				    if(!camMode)
+                        break;
+
 					float sensitivity = 0.3f;
 
 					camAngles.yaw = NzNormalizeAngle(camAngles.yaw - event.mouseMove.deltaX*sensitivity);
@@ -106,6 +111,24 @@ int main()
 					NzMouse::SetPosition(window.GetWidth()/2, window.GetHeight()/2, window);
 					break;
 				}
+
+				case nzEventType_MouseButtonPressed:
+					if (event.mouseButton.button == NzMouse::Left)
+					{
+						// L'utilisateur vient d'appuyer sur le bouton left de la souris
+						// Nous allons inverser le mode caméra et montrer/cacher le curseur en conséquence
+						if (camMode)
+						{
+							camMode = false;
+							window.SetCursor(nzWindowCursor_Default);
+						}
+						else
+						{
+							camMode = true;
+							window.SetCursor(nzWindowCursor_None);
+						}
+					}
+                    break;
 
 				case nzEventType_Quit:
 					window.Close();
