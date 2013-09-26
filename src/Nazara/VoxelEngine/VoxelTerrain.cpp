@@ -30,6 +30,7 @@ NzVoxelTerrain::NzVoxelTerrain()
 
     // Shader generation & Material
 	m_material.EnableLighting(true);
+
     m_material.SetDiffuseMap("resources/debug_texture_pack.png");
 
 }

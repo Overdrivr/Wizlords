@@ -156,66 +156,66 @@ bool NzVoxelEngine::Initialize()
 
 	// ------RIGHT-------
 	//Vertex 1              //Normal                //UV
-	m_rightFace[0] = 0.f;   m_rightFace[3] = 0.f;   m_rightFace[6] = uv[0];
+	m_rightFace[0] = 0.f;   m_rightFace[3] = -1.f;   m_rightFace[6] = uv[0];
 	m_rightFace[1] = 0.f;   m_rightFace[4] = 0.f;   m_rightFace[7] = uv[1];
-	m_rightFace[2] = 0.f;   m_rightFace[5] = 1.f;
+	m_rightFace[2] = 0.f;   m_rightFace[5] = 0.f;
 
 	//Vertex 2              //Normal                //UV
-	m_rightFace[8] = 0.f;   m_rightFace[11] = 0.f;  m_rightFace[14] = uv[2];
+	m_rightFace[8] = 0.f;   m_rightFace[11] = -1.f;  m_rightFace[14] = uv[2];
 	m_rightFace[9] = 1.f;   m_rightFace[12] = 0.f;  m_rightFace[15] = uv[3];
-	m_rightFace[10] = 0.f;  m_rightFace[13] = 1.f;
+	m_rightFace[10] = 0.f;  m_rightFace[13] = 0.f;
 
 	//Vertex 3              //Normal                //UV
-	m_rightFace[16] = 0.f;  m_rightFace[19] = 0.f;  m_rightFace[22] = uv[4];
+	m_rightFace[16] = 0.f;  m_rightFace[19] = -1.f;  m_rightFace[22] = uv[4];
 	m_rightFace[17] = 0.f;  m_rightFace[20] = 0.f;  m_rightFace[23] = uv[5];
-	m_rightFace[18] = 1.f;  m_rightFace[21] = 1.f;
+	m_rightFace[18] = 1.f;  m_rightFace[21] = 0.f;
 
 	//Vertex 4              //Normal                //UV
-	m_rightFace[24] = 0.f;  m_rightFace[27] = 0.f;  m_rightFace[30] = uv[6];
+	m_rightFace[24] = 0.f;  m_rightFace[27] = -1.f;  m_rightFace[30] = uv[6];
 	m_rightFace[25] = 1.f;  m_rightFace[28] = 0.f;  m_rightFace[31] = uv[7];
-	m_rightFace[26] = 1.f;  m_rightFace[29] = 1.f;
+	m_rightFace[26] = 1.f;  m_rightFace[29] = 0.f;
 
     // ------FRONT-------
 	//Vertex 1              //Normal                //UV
-	m_frontFace[0] = 0.f;    m_frontFace[3] = 1.f;    m_frontFace[6] = uv[0];
+	m_frontFace[0] = 0.f;    m_frontFace[3] = 0.f;    m_frontFace[6] = uv[0];
 	m_frontFace[1] = 0.f;    m_frontFace[4] = 0.f;    m_frontFace[7] = uv[1];
-	m_frontFace[2] = 1.f;    m_frontFace[5] = 0.f;
+	m_frontFace[2] = 1.f;    m_frontFace[5] = 1.f;
 
 	//Vertex 2              //Normal                //UV
-	m_frontFace[8] = 0.f;    m_frontFace[11] = 1.f;   m_frontFace[14] = uv[2];
+	m_frontFace[8] = 0.f;    m_frontFace[11] = 0.f;   m_frontFace[14] = uv[2];
 	m_frontFace[9] = 1.f;    m_frontFace[12] = 0.f;   m_frontFace[15] = uv[3];
-	m_frontFace[10] = 1.f;   m_frontFace[13] = 0.f;
+	m_frontFace[10] = 1.f;   m_frontFace[13] = 1.f;
 
 	//Vertex 3              //Normal                //UV
-	m_frontFace[16] = 1.f;   m_frontFace[19] = 1.f;   m_frontFace[22] = uv[4];
+	m_frontFace[16] = 1.f;   m_frontFace[19] = 0.f;   m_frontFace[22] = uv[4];
 	m_frontFace[17] = 0.f;   m_frontFace[20] = 0.f;   m_frontFace[23] = uv[5];
-	m_frontFace[18] = 1.f;   m_frontFace[21] = 0.f;
+	m_frontFace[18] = 1.f;   m_frontFace[21] = 1.f;
 
 	//Vertex 4              //Normal                //UV
-	m_frontFace[24] = 1.f;   m_frontFace[27] = 1.f;   m_frontFace[30] = uv[6];
+	m_frontFace[24] = 1.f;   m_frontFace[27] = 0.f;   m_frontFace[30] = uv[6];
 	m_frontFace[25] = 1.f;   m_frontFace[28] = 0.f;   m_frontFace[31] = uv[7];
-	m_frontFace[26] = 1.f;   m_frontFace[29] = 0.f;
+	m_frontFace[26] = 1.f;   m_frontFace[29] = 1.f;
 
 	// ------BACK-------
 	//Vertex 1              //Normal                //UV
-	m_backFace[0] = 0.f;    m_backFace[3] = 1.f;    m_backFace[6] = uv[0];
+	m_backFace[0] = 0.f;    m_backFace[3] = 0.f;    m_backFace[6] = uv[0];
 	m_backFace[1] = 0.f;    m_backFace[4] = 0.f;    m_backFace[7] = uv[1];
-	m_backFace[2] = 0.f;    m_backFace[5] = 0.f;
+	m_backFace[2] = 0.f;    m_backFace[5] = -1.f;
 
 	//Vertex 2              //Normal                //UV
-	m_backFace[8] = 0.f;    m_backFace[11] = 1.f;   m_backFace[14] = uv[2];
+	m_backFace[8] = 0.f;    m_backFace[11] = 0.f;   m_backFace[14] = uv[2];
 	m_backFace[9] = 1.f;    m_backFace[12] = 0.f;   m_backFace[15] = uv[3];
-	m_backFace[10] = 0.f;   m_backFace[13] = 0.f;
+	m_backFace[10] = 0.f;   m_backFace[13] = -1.f;
 
 	//Vertex 3              //Normal                //UV
-	m_backFace[16] = 1.f;   m_backFace[19] = 1.f;   m_backFace[22] = uv[4];
+	m_backFace[16] = 1.f;   m_backFace[19] = 0.f;   m_backFace[22] = uv[4];
 	m_backFace[17] = 0.f;   m_backFace[20] = 0.f;   m_backFace[23] = uv[5];
-	m_backFace[18] = 0.f;   m_backFace[21] = 0.f;
+	m_backFace[18] = 0.f;   m_backFace[21] = -1.f;
 
 	//Vertex 4              //Normal                //UV
-	m_backFace[24] = 1.f;   m_backFace[27] = 1.f;   m_backFace[30] = uv[6];
+	m_backFace[24] = 1.f;   m_backFace[27] = 0.f;   m_backFace[30] = uv[6];
 	m_backFace[25] = 1.f;   m_backFace[28] = 0.f;   m_backFace[31] = uv[7];
-	m_backFace[26] = 0.f;   m_backFace[29] = 0.f;
+	m_backFace[26] = 0.f;   m_backFace[29] = -1.f;
 
     // ---------BOTTOM------------
 	//Vertex 1                  //Normal                    //UV
