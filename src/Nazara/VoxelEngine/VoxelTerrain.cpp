@@ -15,19 +15,18 @@ NzVoxelTerrain::NzVoxelTerrain()
     simp3.ShufflePermutationTable();
     simp3.SetResolution(1/30.f);
 
-    m_generateList.push_back(NzVector3i(0,0,0));
+    //m_generateList.push_back(NzVector3i(0,0,0));
     m_generateList.push_back(NzVector3i(1,0,0));
-    m_generateList.push_back(NzVector3i(2,0,0));
+    /*m_generateList.push_back(NzVector3i(2,0,0));
     m_generateList.push_back(NzVector3i(3,0,0));
     m_generateList.push_back(NzVector3i(0,1,0));
     m_generateList.push_back(NzVector3i(0,2,0));
     m_generateList.push_back(NzVector3i(0,3,0));
-    m_generateList.push_back(NzVector3i(0,4,0));
+    m_generateList.push_back(NzVector3i(0,4,0));*/
 
     m_threadRun = true;
     //Start generation thread
     m_auxiliaryThread = NzThread(&NzVoxelTerrain::AuxiliaryThreadFunction,this);
-    m_conditionVariable.Signal();
 
     //Lights
     m_light = new NzLight(nzLightType_Directional);
@@ -41,9 +40,12 @@ NzVoxelTerrain::NzVoxelTerrain()
 NzVoxelTerrain::~NzVoxelTerrain()
 {
     delete m_light;
+    //Arrêt du thread
     m_threadRun = false;
     m_generateList.clear();
     m_conditionVariable.Signal();
+    //On attend que le thread ait fini avant de le supprimer
+    m_auxiliaryThread.Join();
 }
 
 void NzVoxelTerrain::Draw() const
@@ -101,7 +103,8 @@ void NzVoxelTerrain::Init()
 {
     //Update register
     GetScene()->RegisterForUpdate(this);
-
+    //Tell the thread there are tasks to be done
+    m_conditionVariable.Signal();
 }
 
 bool NzVoxelTerrain::SetBlockType(NzVector3i location, nzVoxelBlockType newType)
@@ -131,17 +134,21 @@ bool NzVoxelTerrain::FrustumCull(const NzFrustumf& frustum)
 
 void NzVoxelTerrain::AuxiliaryThreadFunction()
 {
-    std::cout<<"Thread started"<<std::endl;
-
     while(m_threadRun)
     {
+        //Wait for signal to start work
         m_conditionVariable.Wait(&m_mutex);
+
         while(!m_generateList.empty())
         {
             NzVector3i location = m_generateList.front();
             m_generateList.pop_front();
 
-            m_arrays.emplace(location,NzVoxelArray());
+            NzVector3f offset(static_cast<float>(location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
+                              static_cast<float>(location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
+                              static_cast<float>(location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Y));
+
+            m_arrays.emplace(location,NzVoxelArray(offset));
             m_meshes.emplace(location,NzVoxelChunkMesh());
 
             m_meshes[location].SetLocation(location);
@@ -149,5 +156,4 @@ void NzVoxelTerrain::AuxiliaryThreadFunction()
             m_meshes[location].GenerateMesh(*this);
         }
     }
-    std::cout<<"Thread shut down"<<std::endl;
 }
