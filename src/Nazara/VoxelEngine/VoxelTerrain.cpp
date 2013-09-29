@@ -4,26 +4,30 @@
 
 #include <Nazara/VoxelEngine/VoxelTerrain.hpp>
 #include <Nazara/VoxelEngine/VoxelChunkMesh.hpp>
-#include <iostream>
 #include <Nazara/Renderer.hpp>
-#include <Nazara/Noise/Simplex3D.hpp>
+#include <iostream>
 #include <Nazara/VoxelEngine/Debug.hpp>
 
 NzVoxelTerrain::NzVoxelTerrain()
 {
-    m_arrays.emplace(NzVector3i(0,0,0),NzVoxelArray());
-
-    m_meshes.emplace(NzVector3i(0,0,0),NzVoxelChunkMesh());
-    m_meshes[NzVector3i(0,0,0)].SetLocation(NzVector3i(0,0,0));
-
-    NzSimplex3D simp3(123436789);
+    //Procedural generator
+    simp3.SetNewSeed(123436789);
+    simp3.ShufflePermutationTable();
     simp3.SetResolution(1/30.f);
-    m_arrays[NzVector3i(0,0,0)].Init(simp3);
 
-    m_meshes[NzVector3i(0,0,0)].GenerateMesh(*this);
-    std::cout<<"Face count : "<<m_meshes[NzVector3i(0,0,0)].GetFaceCount()<<std::endl;
-    std::cout<<"Vertex count : "<<m_meshes[NzVector3i(0,0,0)].GetVertexCount()<<" / "<<NAZARA_VOXELENGINE_MAX_VERTEX_AMOUNT<<std::endl;
+    m_generateList.push_back(NzVector3i(0,0,0));
+    m_generateList.push_back(NzVector3i(1,0,0));
+    m_generateList.push_back(NzVector3i(2,0,0));
+    m_generateList.push_back(NzVector3i(3,0,0));
+    m_generateList.push_back(NzVector3i(0,1,0));
+    m_generateList.push_back(NzVector3i(0,2,0));
+    m_generateList.push_back(NzVector3i(0,3,0));
+    m_generateList.push_back(NzVector3i(0,4,0));
 
+    m_threadRun = true;
+    //Start generation thread
+    m_auxiliaryThread = NzThread(&NzVoxelTerrain::AuxiliaryThreadFunction,this);
+    m_conditionVariable.Signal();
 
     //Lights
     m_light = new NzLight(nzLightType_Directional);
@@ -37,6 +41,9 @@ NzVoxelTerrain::NzVoxelTerrain()
 NzVoxelTerrain::~NzVoxelTerrain()
 {
     delete m_light;
+    m_threadRun = false;
+    m_generateList.clear();
+    m_conditionVariable.Signal();
 }
 
 void NzVoxelTerrain::Draw() const
@@ -53,7 +60,10 @@ void NzVoxelTerrain::Draw() const
 
     m_light->Enable(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None),1.0);
 
-    NzVoxelEngine::DrawChunk(m_meshes.at(NzVector3i(0,0,0)));
+    for(auto it = m_meshes.begin() ; it != m_meshes.end() ; ++it)
+    {
+        NzVoxelEngine::DrawChunk(it->second);
+    }
 }
 
 const NzBoundingVolumef& NzVoxelTerrain::GetBoundingVolume() const
@@ -91,6 +101,7 @@ void NzVoxelTerrain::Init()
 {
     //Update register
     GetScene()->RegisterForUpdate(this);
+
 }
 
 bool NzVoxelTerrain::SetBlockType(NzVector3i location, nzVoxelBlockType newType)
@@ -116,4 +127,27 @@ void NzVoxelTerrain::AddToRenderQueue(NzAbstractRenderQueue* renderQueue) const
 bool NzVoxelTerrain::FrustumCull(const NzFrustumf& frustum)
 {
     return true;
+}
+
+void NzVoxelTerrain::AuxiliaryThreadFunction()
+{
+    std::cout<<"Thread started"<<std::endl;
+
+    while(m_threadRun)
+    {
+        m_conditionVariable.Wait(&m_mutex);
+        while(!m_generateList.empty())
+        {
+            NzVector3i location = m_generateList.front();
+            m_generateList.pop_front();
+
+            m_arrays.emplace(location,NzVoxelArray());
+            m_meshes.emplace(location,NzVoxelChunkMesh());
+
+            m_meshes[location].SetLocation(location);
+            m_arrays[location].Init(simp3);
+            m_meshes[location].GenerateMesh(*this);
+        }
+    }
+    std::cout<<"Thread shut down"<<std::endl;
 }
