@@ -121,6 +121,8 @@ void NzVoxelTerrain::Update()
         m_clock.Restart();
     }
 
+    int i(0);
+
     while(!m_meshesToUpdate.empty())
     {
         std::shared_ptr<NzVoxelChunkMesh> mesh;
@@ -128,6 +130,9 @@ void NzVoxelTerrain::Update()
         m_meshesToUpdate.pop_front();
         (*mesh).UpdateMesh();
         m_meshes[mesh->GetLocation()] = mesh;
+        ++i;
+        if(i == 5)
+            break;
     }
 
 }
