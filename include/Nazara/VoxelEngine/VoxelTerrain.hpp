@@ -15,6 +15,7 @@
 #include <Nazara/Noise/Simplex3D.hpp>
 #include <Nazara/Core/Thread.hpp>
 #include <Nazara/Core/ConditionVariable.hpp>
+#include <memory>
 #include <map>
 #include <list>
 
@@ -49,8 +50,13 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public 
 
 	private:
 		std::map<NzVector3i, NzVoxelArray> m_arrays;
-		std::map<NzVector3i, NzVoxelChunkMesh> m_meshes;
+		std::map<NzVector3i, std::shared_ptr<NzVoxelChunkMesh>> m_meshes;
 
+		//Les maillages générés sont placées dans cette liste, puis récupérés par le thread principal lors de Update
+		//Afin que les appels à OpenGl soient faits dans le thread principal (le thread secondaire n'a pas accés au contexte)
+		std::list<std::shared_ptr<NzVoxelChunkMesh>> m_meshesToUpdate;
+
+        //Les liste de maillage à générer/détruire par le thread secondaire
 		std::list<NzVector3i> m_generateList;
 		std::list<NzVector3i> m_deleteList;
 

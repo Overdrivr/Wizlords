@@ -15,14 +15,12 @@ NzVoxelTerrain::NzVoxelTerrain()
     simp3.ShufflePermutationTable();
     simp3.SetResolution(1/30.f);
 
-    //m_generateList.push_back(NzVector3i(0,0,0));
-    m_generateList.push_back(NzVector3i(1,0,0));
-    /*m_generateList.push_back(NzVector3i(2,0,0));
-    m_generateList.push_back(NzVector3i(3,0,0));
-    m_generateList.push_back(NzVector3i(0,1,0));
-    m_generateList.push_back(NzVector3i(0,2,0));
-    m_generateList.push_back(NzVector3i(0,3,0));
-    m_generateList.push_back(NzVector3i(0,4,0));*/
+
+    //List of chunks to generate
+    for(int i(0) ; i < 20 ; ++i)
+        for(int j(0) ;  j < 20 ; ++j)
+            for(int k(0) ; k < 20 ; ++k)
+                m_generateList.push_back(NzVector3i(i,j,k));
 
     m_threadRun = true;
     //Start generation thread
@@ -61,10 +59,10 @@ void NzVoxelTerrain::Draw() const
         m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->GetUniformLocation(nzShaderUniform_EyePosition), GetScene()->GetViewer()->GetEyePosition());
 
     m_light->Enable(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None),1.0);
-
+    //std::cout<<m_meshes.size()<<" : "<<m_arrays.size()<<std::endl;
     for(auto it = m_meshes.begin() ; it != m_meshes.end() ; ++it)
     {
-        NzVoxelEngine::DrawChunk(it->second);
+        NzVoxelEngine::DrawChunk(*(it->second));
     }
 }
 
@@ -105,6 +103,9 @@ void NzVoxelTerrain::Init()
     GetScene()->RegisterForUpdate(this);
     //Tell the thread there are tasks to be done
     m_conditionVariable.Signal();
+
+    ///On teste les buffers crées
+    //m_meshes[NzVector3i(1,0,0)]
 }
 
 bool NzVoxelTerrain::SetBlockType(NzVector3i location, nzVoxelBlockType newType)
@@ -118,6 +119,15 @@ void NzVoxelTerrain::Update()
     {
         m_light->Rotate(NzEulerAnglesf(0.01f * m_clock.GetMilliseconds(),0.f,0.f));
         m_clock.Restart();
+    }
+
+    while(!m_meshesToUpdate.empty())
+    {
+        std::shared_ptr<NzVoxelChunkMesh> mesh;
+        mesh = m_meshesToUpdate.front();
+        m_meshesToUpdate.pop_front();
+        (*mesh).UpdateMesh();
+        m_meshes[mesh->GetLocation()] = mesh;
     }
 
 }
@@ -146,14 +156,16 @@ void NzVoxelTerrain::AuxiliaryThreadFunction()
 
             NzVector3f offset(static_cast<float>(location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
                               static_cast<float>(location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                              static_cast<float>(location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Y));
+                              static_cast<float>(location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
 
             m_arrays.emplace(location,NzVoxelArray(offset));
-            m_meshes.emplace(location,NzVoxelChunkMesh());
-
-            m_meshes[location].SetLocation(location);
             m_arrays[location].Init(simp3);
-            m_meshes[location].GenerateMesh(*this);
+
+            std::shared_ptr<NzVoxelChunkMesh> p;
+            p.reset(new NzVoxelChunkMesh());
+            (*p).SetLocation(location);
+            (*p).GenerateMesh(m_arrays[location]);
+            m_meshesToUpdate.push_back(p);
         }
     }
 }
