@@ -22,11 +22,13 @@ class NAZARA_API NzVoxelChunkMesh
 		~NzVoxelChunkMesh();
 
         NzVector3i GetLocation() const;
-		void GenerateMesh(NzVoxelTerrain& terrain);
+		void GenerateMesh(NzVoxelArray& voxelArray);
 		unsigned int GetFaceCount() const;
 		unsigned int GetVertexCount() const;
 
         void SetLocation(const NzVector3i& location);
+
+        void UpdateMesh();
 	private:
         void GenerateCube(const NzVoxelArray& voxelArray, unsigned int x, unsigned int y, unsigned int z);
 
