@@ -27,7 +27,7 @@ namespace
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
 {
-    NzRenderer::SetMatrix(nzMatrixType_World, NzMatrix4f::Identity());
+    NzRenderer::SetMatrix(nzMatrixType_World, chunk.m_transformationMatrix);
     NzRenderer::SetRenderStates(m_renderStates);
     NzRenderer::SetFaceFilling(nzFaceFilling_Fill);
 

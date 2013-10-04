@@ -39,6 +39,7 @@ class NAZARA_API NzVoxelChunkMesh
 		unsigned int m_faceCount;
 
 		NzVector3i m_location;
+		NzMatrix4f m_transformationMatrix;
 };
 
 #endif // NAZARA_VOXELCHUNKMESH_HPP

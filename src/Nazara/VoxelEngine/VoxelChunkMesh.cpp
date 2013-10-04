@@ -87,9 +87,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     if(drawFace)
     {
-        NzVector3f offset(static_cast<float>(X + m_location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
-                          static_cast<float>(Y + m_location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                          static_cast<float>(Z + m_location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
+        NzVector3f offset(static_cast<float>(X),
+                          static_cast<float>(Y),
+                          static_cast<float>(Z));
 
         std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0);
 
@@ -116,9 +116,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     if(drawFace)
     {
-        NzVector3f offset(static_cast<float>(X + m_location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
-                          static_cast<float>(Y + m_location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                          static_cast<float>(Z + m_location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
+        NzVector3f offset(static_cast<float>(X),
+                          static_cast<float>(Y),
+                          static_cast<float>(Z));
 
         std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_left,offset,0);
         m_vertexData.reserve(m_vertexCount * 8 + 32);
@@ -144,9 +144,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     if(drawFace)
     {
-        NzVector3f offset(static_cast<float>(X + m_location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
-                          static_cast<float>(Y + m_location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                          static_cast<float>(Z + m_location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
+        NzVector3f offset(static_cast<float>(X),
+                          static_cast<float>(Y),
+                          static_cast<float>(Z));
 
         std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_right,offset,0);
         m_vertexData.reserve(m_vertexCount * 8 + 32);
@@ -172,9 +172,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     if(drawFace)
     {
-        NzVector3f offset(static_cast<float>(X + m_location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
-                          static_cast<float>(Y + m_location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                          static_cast<float>(Z + m_location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
+        NzVector3f offset(static_cast<float>(X),
+                          static_cast<float>(Y),
+                          static_cast<float>(Z));
 
         std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_front,offset,0);
         m_vertexData.reserve(m_vertexCount * 8 + 32);
@@ -200,9 +200,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     if(drawFace)
     {
-        NzVector3f offset(static_cast<float>(X + m_location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
-                          static_cast<float>(Y + m_location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                          static_cast<float>(Z + m_location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
+        NzVector3f offset(static_cast<float>(X),
+                          static_cast<float>(Y),
+                          static_cast<float>(Z));
 
         std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_back,offset,0);
         m_vertexData.reserve(m_vertexCount * 8 + 32);
@@ -228,9 +228,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 
     if(drawFace)
     {
-        NzVector3f offset(static_cast<float>(X + m_location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
-                          static_cast<float>(Y + m_location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
-                          static_cast<float>(Z + m_location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
+        NzVector3f offset(static_cast<float>(X),
+                          static_cast<float>(Y),
+                          static_cast<float>(Z));
 
         std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_bottom,offset,0);
         m_vertexData.reserve(m_vertexCount * 8 + 32);
@@ -243,6 +243,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
 void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
 {
     m_location = location;
+    m_transformationMatrix.MakeTranslation(NzVector3f(static_cast<float>(location.x * NAZARA_VOXELENGINE_CHUNKSIZE_X),
+                                                      static_cast<float>(location.y * NAZARA_VOXELENGINE_CHUNKSIZE_Y),
+                                                      static_cast<float>(location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z)));
 }
 
 void NzVoxelChunkMesh::UpdateMesh()
