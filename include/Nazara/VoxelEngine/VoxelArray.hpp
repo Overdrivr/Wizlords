@@ -11,9 +11,10 @@
 #include <Nazara/VoxelEngine/Config.hpp>
 #include <Nazara/VoxelEngine/Enums.hpp>
 #include <Nazara/Math/Vector3.hpp>
+#include <Nazara/VoxelEngine/ProceduralGenerator.hpp>
 #include <array>
 
-class NzAbstract3DNoise;
+class NzProceduralGenerator;
 
 class NAZARA_API NzVoxelArray
 {
@@ -26,7 +27,7 @@ class NAZARA_API NzVoxelArray
         nzVoxelBlockType GetBlockType(NzVector3ui location) const;
         NzVector3f GetPosition() const;
 
-        void Init(NzAbstract3DNoise& densitySource);
+        void Init(NzProceduralGenerator& generator);
 
         bool SetBlockType(const NzVector3ui& location, nzVoxelBlockType newType);
         void SetPosition(const NzVector3f& position);

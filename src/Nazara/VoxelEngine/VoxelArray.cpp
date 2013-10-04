@@ -45,24 +45,18 @@ NzVector3f NzVoxelArray::GetPosition() const
     return m_position;
 }
 
-void NzVoxelArray::Init(NzAbstract3DNoise& densitySource)
+void NzVoxelArray::Init(NzProceduralGenerator& generator)
 {
     //Génération du terrain
     for(unsigned int i(0) ; i < NAZARA_VOXELENGINE_CHUNKSIZE_X ; ++i)
         for(unsigned int j(0) ; j < NAZARA_VOXELENGINE_CHUNKSIZE_Y ; ++j)
             for(unsigned int k(0) ; k < NAZARA_VOXELENGINE_CHUNKSIZE_Z ; ++k)
             {
-                float density = densitySource.GetBasicValue(m_position.x + static_cast<float>(i),
-                                                            m_position.y + static_cast<float>(j),
-                                                            m_position.z + static_cast<float>(k));
+                unsigned int index = i + j * NAZARA_VOXELENGINE_CHUNKSIZE_X + k * NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y;
 
-
-                nzVoxelBlockType block;
-                block = (density > 0.5f) ? nzVoxelBlockType_dirt : nzVoxelBlockType_empty;
-
-                m_blocks[i +
-                         j * NAZARA_VOXELENGINE_CHUNKSIZE_X +
-                         k * NAZARA_VOXELENGINE_CHUNKSIZE_X * NAZARA_VOXELENGINE_CHUNKSIZE_Y] = block;
+                m_blocks[index] = generator.GetBlock(m_position.x + static_cast<float>(i),
+                                                     m_position.y + static_cast<float>(j),
+                                                     m_position.z + static_cast<float>(k));
             }
 }
 
