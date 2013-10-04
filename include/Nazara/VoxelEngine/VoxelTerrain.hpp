@@ -12,9 +12,9 @@
 #include <Nazara/Math/Vector3.hpp>
 #include <Nazara/Graphics.hpp>
 #include <Nazara/Core/Clock.hpp>
-#include <Nazara/Noise/Simplex3D.hpp>
 #include <Nazara/Core/Thread.hpp>
 #include <Nazara/Core/ConditionVariable.hpp>
+#include <Nazara/VoxelEngine/ProceduralGenerator.hpp>
 #include <memory>
 #include <map>
 #include <list>
@@ -65,7 +65,7 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public 
 		NzConditionVariable m_conditionVariable;
 		bool m_threadRun;
 
-		NzSimplex3D simp3;
+		NzProceduralGenerator m_proceduralGenerator;
 
 		NzMaterial m_material;
         NzLight* m_light;

@@ -10,12 +10,6 @@
 
 NzVoxelTerrain::NzVoxelTerrain()
 {
-    //Procedural generator
-    simp3.SetNewSeed(123436789);
-    simp3.ShufflePermutationTable();
-    simp3.SetResolution(1/30.f);
-
-
     //List of chunks to generate
     for(int i(0) ; i < 20 ; ++i)
         for(int j(0) ;  j < 20 ; ++j)
@@ -164,7 +158,7 @@ void NzVoxelTerrain::AuxiliaryThreadFunction()
                               static_cast<float>(location.z * NAZARA_VOXELENGINE_CHUNKSIZE_Z));
 
             m_arrays.emplace(location,NzVoxelArray(offset));
-            m_arrays[location].Init(simp3);
+            m_arrays[location].Init(m_proceduralGenerator);
 
             std::shared_ptr<NzVoxelChunkMesh> p;
             p.reset(new NzVoxelChunkMesh());
