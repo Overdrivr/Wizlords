@@ -68,6 +68,8 @@ class NAZARA_API NzVoxelTerrain : public NzDrawable, public NzSceneNode, public 
 		NzProceduralGenerator m_proceduralGenerator;
 
 		NzMaterial m_material;
+		NzTexture m_terrainTextureArray;
+		std::vector<NzImage> m_imageArray;
         NzLight* m_light;
         NzClock m_clock;
 };

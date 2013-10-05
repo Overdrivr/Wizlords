@@ -25,8 +25,21 @@ NzVoxelTerrain::NzVoxelTerrain()
 
     // Shader generation & Material
 	m_material.EnableLighting(true);
+	unsigned int width = 64;
+	unsigned int height = 64;
+	unsigned int texturesAmount = 2;
 
-    m_material.SetDiffuseMap("resources/debug_texture_pack.png");
+    m_terrainTextureArray.Create(nzImageType_2D_Array,nzPixelFormat_RGBA8,width,height,texturesAmount);
+
+    m_imageArray.emplace_back(NzImage());
+    m_imageArray.back().LoadFromFile("ressources/rock.png");
+    m_terrainTextureArray.Update(m_imageArray.back(),NzRectui(64,64),0);
+
+    m_imageArray.emplace_back(NzImage());
+    m_imageArray.back().LoadFromFile("ressources/grass.png");
+    m_terrainTextureArray.Update(m_imageArray.back(),NzRectui(64,64),1);
+
+    m_material.SetDiffuseMap(&m_texture);
 }
 
 NzVoxelTerrain::~NzVoxelTerrain()
