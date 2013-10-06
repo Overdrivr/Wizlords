@@ -240,6 +240,11 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
     }
 }
 
+bool NzVoxelChunkMesh::IsEmpty() const
+{
+    return m_vertexCount == 0;
+}
+
 void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
 {
     m_location = location;
@@ -250,8 +255,10 @@ void NzVoxelChunkMesh::SetLocation(const NzVector3i& location)
 
 void NzVoxelChunkMesh::UpdateMesh()
 {
-    //Réserver un peu en plus et ne pas resetter le buffer à chaque coup ?
-    m_vertexBuffer.Reset(NzVertexDeclaration::Get(nzVertexLayout_XYZ_Normal_UV),m_vertexCount,nzBufferStorage_Hardware);
-
-    m_vertexBuffer.Fill(m_vertexData.data(),0,m_vertexCount);
+    if(m_vertexCount > 0)
+    {
+        //Réserver un peu en plus et ne pas resetter le buffer à chaque coup ?
+        m_vertexBuffer.Reset(NzVertexDeclaration::Get(nzVertexLayout_XYZ_Normal_UV),m_vertexCount,nzBufferStorage_Hardware);
+        m_vertexBuffer.Fill(m_vertexData.data(),0,m_vertexCount);
+    }
 }

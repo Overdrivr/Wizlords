@@ -26,6 +26,8 @@ class NAZARA_API NzVoxelChunkMesh
 		unsigned int GetFaceCount() const;
 		unsigned int GetVertexCount() const;
 
+		bool IsEmpty() const;
+
         void SetLocation(const NzVector3i& location);
 
         void UpdateMesh();
