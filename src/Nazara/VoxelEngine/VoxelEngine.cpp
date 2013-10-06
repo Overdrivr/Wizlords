@@ -23,6 +23,7 @@ namespace
   static std::array<float,32> m_bottomFace;
   static NzRenderStates m_renderStates;
   static NzIndexBuffer m_indexBuffer;
+  static NzShaderProgram m_shader;
 }
 
 void NzVoxelEngine::DrawChunk(const NzVoxelChunkMesh& chunk)
@@ -271,6 +272,30 @@ bool NzVoxelEngine::Initialize()
 		return false;
 	}
 
+	//Shader
+	m_shader.Create(nzShaderLanguage_GLSL);
+
+	if(!m_shader.LoadShaderFromFile(nzShaderType_Vertex, "resources/shader.vert"))
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to load vertex shader");
+        m_shader.Destroy();
+        return false;
+    }
+
+    if(!m_shader.LoadShaderFromFile(nzShaderType_Fragment, "resources/shader.frag"))
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to load fragment shader");
+        m_shader.Destroy();
+        return false;
+    }
+
+    if (!m_shader.Compile())
+    {
+        NazaraError("Failed to initialize voxel renderer module : Failed to compile shader");
+        m_shader.Destroy();
+        return false;
+    }
+
 	NazaraNotice("Initialized: VoxelEngine module");
 
 	return true;
@@ -295,6 +320,7 @@ void NzVoxelEngine::Uninitialize()
 	// Libération du module
 	s_moduleReferenceCounter = 0;
 	m_indexBuffer.Reset();
+	m_shader.Destroy();
 
 	NazaraNotice("Uninitialized: VoxelEngine module");
 
