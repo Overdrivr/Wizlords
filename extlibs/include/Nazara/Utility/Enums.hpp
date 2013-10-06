@@ -244,11 +244,15 @@ enum nzVertexLayout
 	// Déclarations destinées au rendu
 	nzVertexLayout_XY,
 	nzVertexLayout_XY_UV,
+	nzVertexLayout_XY_UVW,
 	nzVertexLayout_XYZ,
 	nzVertexLayout_XYZ_Normal,
 	nzVertexLayout_XYZ_Normal_UV,
 	nzVertexLayout_XYZ_Normal_UV_Tangent,
 	nzVertexLayout_XYZ_UV,
+	nzVertexLayout_XYZ_Normal_UVW,
+	nzVertexLayout_XYZ_Normal_UVW_Tangent,
+	nzVertexLayout_XYZ_UVW,
 
 	// Déclarations destinées à l'instancing
 	nzVertexLayout_Matrix4,
