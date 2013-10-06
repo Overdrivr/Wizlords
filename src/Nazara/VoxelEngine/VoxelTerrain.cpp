@@ -170,7 +170,9 @@ void NzVoxelTerrain::AuxiliaryThreadFunction()
             p.reset(new NzVoxelChunkMesh());
             (*p).SetLocation(location);
             (*p).GenerateMesh(m_arrays[location]);
-            m_meshesToUpdate.push_back(p);
+
+            if(!(*p).IsEmpty())
+                m_meshesToUpdate.push_back(p);
         }
     }
 }
