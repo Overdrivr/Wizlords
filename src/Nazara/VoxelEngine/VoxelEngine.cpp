@@ -88,6 +88,11 @@ std::array<float,32> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
     return data;
 }
 
+NzShaderProgram* NzVoxelEngine::GetShader()
+{
+    return &m_shader;
+}
+
 bool NzVoxelEngine::Initialize()
 {
 	if (s_moduleReferenceCounter++ != 0)

@@ -51,18 +51,14 @@ NzVoxelTerrain::~NzVoxelTerrain()
 
 void NzVoxelTerrain::Draw() const
 {
-    NzRenderer::SetShaderProgram(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None));
+    NzShaderProgram* shader = NzVoxelEngine::GetShader();
 
-    m_material.Apply(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None));
+    NzRenderer::SetShaderProgram(shader);
 
-    m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->SendColor(
-        m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->GetUniformLocation(nzShaderUniform_SceneAmbient), GetScene()->GetAmbientColor());
-
-    m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->SendVector(
-        m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None)->GetUniformLocation(nzShaderUniform_EyePosition), GetScene()->GetViewer()->GetEyePosition());
-
+    shader->SendColor(shader->GetUniformLocation(nzShaderUniform_SceneAmbient), GetScene()->GetAmbientColor());
+    shader->SendVector(shader->GetUniformLocation(nzShaderUniform_EyePosition), GetScene()->GetViewer()->GetEyePosition());
     m_light->Enable(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None),1.0);
-    //std::cout<<m_meshes.size()<<" : "<<m_arrays.size()<<std::endl;
+
     for(auto it = m_meshes.begin() ; it != m_meshes.end() ; ++it)
     {
         NzVoxelEngine::DrawChunk(*(it->second));
