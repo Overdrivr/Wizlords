@@ -31,15 +31,11 @@ NzVoxelTerrain::NzVoxelTerrain()
 
     m_terrainTextureArray.Create(nzImageType_2D_Array,nzPixelFormat_RGBA8,width,height,texturesAmount);
 
-    m_imageArray.emplace_back(NzImage());
-    m_imageArray.back().LoadFromFile("ressources/rock.png");
-    m_terrainTextureArray.Update(m_imageArray.back(),NzRectui(64,64),0);
+    m_terrainImageArray.LoadFromFile("resources/debug_texture_pack.png");
+    m_terrainTextureArray.Update(m_terrainImageArray,NzRectui(64,64),0);
+    m_terrainTextureArray.Update(m_terrainImageArray,NzRectui(64,64),1);
 
-    m_imageArray.emplace_back(NzImage());
-    m_imageArray.back().LoadFromFile("ressources/grass.png");
-    m_terrainTextureArray.Update(m_imageArray.back(),NzRectui(64,64),1);
-
-    m_material.SetDiffuseMap(&m_texture);
+    m_material.SetDiffuseMap(&m_terrainTextureArray);
 }
 
 NzVoxelTerrain::~NzVoxelTerrain()
@@ -110,9 +106,6 @@ void NzVoxelTerrain::Init()
     GetScene()->RegisterForUpdate(this);
     //Tell the thread there are tasks to be done
     m_conditionVariable.Signal();
-
-    ///On teste les buffers crées
-    //m_meshes[NzVector3i(1,0,0)]
 }
 
 bool NzVoxelTerrain::SetBlockType(NzVector3i location, nzVoxelBlockType newType)
