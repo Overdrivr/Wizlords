@@ -91,10 +91,10 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
                           static_cast<float>(Y),
                           static_cast<float>(Z));
 
-        std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0);
+        std::array<float,36> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_top,offset,0);
 
-        m_vertexData.reserve(m_vertexCount * 8 + 32);
-        std::copy(data.data(),data.data() + 32,std::back_inserter(m_vertexData));
+        m_vertexData.reserve(m_vertexCount * 8 + 36);
+        std::copy(data.data(),data.data() + 36,std::back_inserter(m_vertexData));
         ++m_faceCount;
         m_vertexCount += 4;
     }
@@ -120,9 +120,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
                           static_cast<float>(Y),
                           static_cast<float>(Z));
 
-        std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_left,offset,0);
-        m_vertexData.reserve(m_vertexCount * 8 + 32);
-        std::copy(data.data(),data.data() + 32,std::back_inserter(m_vertexData));
+        std::array<float,36> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_left,offset,0);
+        m_vertexData.reserve(m_vertexCount * 8 + 36);
+        std::copy(data.data(),data.data() + 36,std::back_inserter(m_vertexData));
         ++m_faceCount;
         m_vertexCount += 4;
     }
@@ -148,9 +148,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
                           static_cast<float>(Y),
                           static_cast<float>(Z));
 
-        std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_right,offset,0);
-        m_vertexData.reserve(m_vertexCount * 8 + 32);
-        std::copy(data.data(),data.data() + 32,std::back_inserter(m_vertexData));
+        std::array<float,36> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_right,offset,0);
+        m_vertexData.reserve(m_vertexCount * 8 + 36);
+        std::copy(data.data(),data.data() + 36,std::back_inserter(m_vertexData));
         ++m_faceCount;
         m_vertexCount += 4;
     }
@@ -176,9 +176,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
                           static_cast<float>(Y),
                           static_cast<float>(Z));
 
-        std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_front,offset,0);
-        m_vertexData.reserve(m_vertexCount * 8 + 32);
-        std::copy(data.data(),data.data() + 32,std::back_inserter(m_vertexData));
+        std::array<float,36> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_front,offset,0);
+        m_vertexData.reserve(m_vertexCount * 8 + 36);
+        std::copy(data.data(),data.data() + 36,std::back_inserter(m_vertexData));
         ++m_faceCount;
         m_vertexCount += 4;
     }
@@ -204,9 +204,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
                           static_cast<float>(Y),
                           static_cast<float>(Z));
 
-        std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_back,offset,0);
-        m_vertexData.reserve(m_vertexCount * 8 + 32);
-        std::copy(data.data(),data.data() + 32,std::back_inserter(m_vertexData));
+        std::array<float,36> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_back,offset,0);
+        m_vertexData.reserve(m_vertexCount * 8 + 36);
+        std::copy(data.data(),data.data() + 36,std::back_inserter(m_vertexData));
         ++m_faceCount;
         m_vertexCount += 4;
     }
@@ -232,9 +232,9 @@ void NzVoxelChunkMesh::GenerateCube(const NzVoxelArray& voxelArray, unsigned int
                           static_cast<float>(Y),
                           static_cast<float>(Z));
 
-        std::array<float,32> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_bottom,offset,0);
-        m_vertexData.reserve(m_vertexCount * 8 + 32);
-        std::copy(data.data(),data.data() + 32,std::back_inserter(m_vertexData));
+        std::array<float,36> data = NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation_bottom,offset,0);
+        m_vertexData.reserve(m_vertexCount * 8 + 36);
+        std::copy(data.data(),data.data() + 36,std::back_inserter(m_vertexData));
         ++m_faceCount;
         m_vertexCount += 4;
     }
@@ -258,7 +258,7 @@ void NzVoxelChunkMesh::UpdateMesh()
     if(m_vertexCount > 0)
     {
         //Réserver un peu en plus et ne pas resetter le buffer à chaque coup ?
-        m_vertexBuffer.Reset(NzVertexDeclaration::Get(nzVertexLayout_XYZ_Normal_UV),m_vertexCount,nzBufferStorage_Hardware);
+        m_vertexBuffer.Reset(NzVertexDeclaration::Get(nzVertexLayout_XYZ_Normal_UVW),m_vertexCount,nzBufferStorage_Hardware);
         m_vertexBuffer.Fill(m_vertexData.data(),0,m_vertexCount);
     }
 }
