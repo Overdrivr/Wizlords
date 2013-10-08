@@ -18,12 +18,12 @@ in mat4 InstanceData0;
 in vec3 VertexPosition;
 in vec3 VertexNormal;
 in vec3 VertexTangent;
-in vec2 VertexTexCoord;
+in vec3 VertexTexCoord;
 
 /********************Sortant********************/
 out mat3 vLightToWorld;
 out vec3 vNormal;
-out vec2 vTexCoord;
+out vec3 vTexCoord;
 out vec3 vWorldPos;
 
 /********************Uniformes********************/
@@ -59,7 +59,7 @@ void main()
 
 #if ALPHA_MAPPING || DIFFUSE_MAPPING || EMISSIVE_MAPPING || NORMAL_MAPPING || PARALLAX_MAPPING || SPECULAR_MAPPING
 	#if FLAG_FLIP_UVS
-	vTexCoord = vec2(VertexTexCoord.x, 1.0 - VertexTexCoord.y);
+	vTexCoord = vec3(VertexTexCoord.x, 1.0 - VertexTexCoord.y, VertexTexCoord.z);
 	#else
 	vTexCoord = VertexTexCoord;
 	#endif

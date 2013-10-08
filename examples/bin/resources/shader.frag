@@ -22,7 +22,7 @@ layout(early_fragment_tests) in;
 /********************Entrant********************/
 in mat3 vLightToWorld;
 in vec3 vNormal;
-in vec2 vTexCoord;
+in vec3 vTexCoord;
 in vec3 vWorldPos;
 
 /********************Sortant********************/
@@ -49,7 +49,7 @@ uniform sampler2D MaterialAlphaMap;
 uniform float MaterialAlphaThreshold;
 uniform vec4 MaterialAmbient;
 uniform vec4 MaterialDiffuse;
-uniform sampler2D MaterialDiffuseMap;
+uniform sampler2DArray MaterialDiffuseMap;
 uniform sampler2D MaterialEmissiveMap;
 uniform sampler2D MaterialNormalMap;
 uniform float MaterialShininess;
