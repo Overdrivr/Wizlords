@@ -172,6 +172,7 @@ void NzVoxelTerrain::AuxiliaryThreadFunction()
             (*p).SetLocation(location);
             (*p).GenerateMesh(m_arrays[location]);
 
+            //A rajouter quand même dans une liste si modif future du chunk
             if(!(*p).IsEmpty())
                 m_meshesToUpdate.push_back(p);
         }
