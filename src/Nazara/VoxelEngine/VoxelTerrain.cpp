@@ -23,8 +23,8 @@ NzVoxelTerrain::NzVoxelTerrain()
     //Lights
     m_light = new NzLight(nzLightType_Directional);
 
-    // Shader generation & Material
-	m_material.EnableLighting(true);
+
+	// TextureArray
 	unsigned int width = 64;
 	unsigned int height = 64;
 	unsigned int texturesAmount = 2;
@@ -32,10 +32,15 @@ NzVoxelTerrain::NzVoxelTerrain()
     m_terrainTextureArray.Create(nzImageType_2D_Array,nzPixelFormat_RGBA8,width,height,texturesAmount);
 
     m_terrainImageArray.LoadFromFile("resources/debug_texture_pack.png");
-    m_terrainTextureArray.Update(m_terrainImageArray,NzRectui(64,64),0);
-    m_terrainTextureArray.Update(m_terrainImageArray,NzRectui(64,64),1);
 
-    m_material.SetDiffuseMap(&m_terrainTextureArray);
+    nzUInt8* pixels = m_terrainImageArray.GetPixels();
+
+    m_terrainTextureArray.Update(pixels,width * texturesAmount,height);
+
+    // Shader generation & Material
+    /// Non utilisé tant que les textureArrays ne seront pas supportés
+    //m_material.EnableLighting(true);
+    //m_material.SetDiffuseMap(&m_terrainTextureArray);
 }
 
 NzVoxelTerrain::~NzVoxelTerrain()
