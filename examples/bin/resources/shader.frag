@@ -19,8 +19,6 @@ layout(early_fragment_tests) in;
 #define LIGHT_POINT 1
 #define LIGHT_SPOT 2
 
-#extension GL_EXT_texture_array : enable
-
 /********************Entrant********************/
 in mat3 vLightToWorld;
 in vec3 vNormal;
@@ -63,9 +61,10 @@ uniform vec4 SceneAmbient;
 /********************Fonctions********************/
 void main()
 {
-	vec4 diffuseColor = MaterialDiffuse;
+	/*vec4 diffuseColor = MaterialDiffuse;*/
+	vec4 diffuseColor = vec4(1.0,1.0,1.0,1.0);
 #if DIFFUSE_MAPPING
-	diffuseColor *= texture2DArray(MaterialDiffuseMap, vTexCoord);
+	diffuseColor *= texture(MaterialDiffuseMap, vTexCoord);
 #endif
 
 #if FLAG_DEFERRED
