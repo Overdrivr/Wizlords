@@ -33,14 +33,16 @@ NzVoxelTerrain::NzVoxelTerrain()
 
     m_terrainImageArray.LoadFromFile("resources/debug_texture_pack.png");
 
-    nzUInt8* pixels = m_terrainImageArray.GetPixels();
+    m_terrainTextureArray.Update(m_terrainImageArray.GetConstPixels(0, 0, 0, 0), NzRectui(width, height), 0,
+                                 m_terrainImageArray.GetWidth(), m_terrainImageArray.GetHeight());
 
-    m_terrainTextureArray.Update(pixels,width * texturesAmount,height);
+    m_terrainTextureArray.Update(m_terrainImageArray.GetConstPixels(width, 0, 0, 0), NzRectui(width, height), 1,
+                                 m_terrainImageArray.GetWidth(), m_terrainImageArray.GetHeight());
 
     // Shader generation & Material
     /// Non utilisé tant que les textureArrays ne seront pas supportés
-    //m_material.EnableLighting(true);
-    //m_material.SetDiffuseMap(&m_terrainTextureArray);
+    m_material.EnableLighting(true);
+    m_material.SetDiffuseMap(&m_terrainTextureArray);
 }
 
 NzVoxelTerrain::~NzVoxelTerrain()
@@ -60,9 +62,10 @@ void NzVoxelTerrain::Draw() const
 
     NzRenderer::SetShaderProgram(shader);
 
+    shader->SendTexture(shader->GetUniformLocation(nzShaderUniform_MaterialDiffuseMap),&m_terrainTextureArray);
     shader->SendColor(shader->GetUniformLocation(nzShaderUniform_SceneAmbient), GetScene()->GetAmbientColor());
     shader->SendVector(shader->GetUniformLocation(nzShaderUniform_EyePosition), GetScene()->GetViewer()->GetEyePosition());
-    m_light->Enable(m_material.GetShaderProgram(nzShaderTarget_Model,nzShaderFlags_None),1.0);
+    m_light->Enable(shader,1.0);
 
     for(auto it = m_meshes.begin() ; it != m_meshes.end() ; ++it)
     {
