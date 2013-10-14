@@ -85,6 +85,11 @@ std::array<float,36> NzVoxelEngine::GetFaceData(nzVoxelFaceOrientation face, NzV
 	data[28] += offset.y;
 	data[29] += offset.z;
 
+	data[8]  += static_cast<float>(textureIndex);
+	data[17] += static_cast<float>(textureIndex);
+	data[26] += static_cast<float>(textureIndex);
+	data[35] += static_cast<float>(textureIndex);
+
     return data;
 }
 
