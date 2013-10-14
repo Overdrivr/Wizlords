@@ -24,7 +24,7 @@ class NAZARA_API NzVoxelArray
 		NzVoxelArray(const NzVector3f& position = NzVector3f(0.f,0.f,0.f));
 		~NzVoxelArray();
 
-        nzVoxelBlockType GetBlockType(NzVector3ui location) const;
+        nzVoxelBlockType GetBlockType(const NzVector3ui& location) const;
         NzVector3f GetPosition() const;
 
         void Init(NzProceduralGenerator& generator);

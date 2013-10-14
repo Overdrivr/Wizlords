@@ -20,7 +20,7 @@ NzVoxelArray::~NzVoxelArray()
 
 }
 
-nzVoxelBlockType NzVoxelArray::GetBlockType(NzVector3ui location) const
+nzVoxelBlockType NzVoxelArray::GetBlockType(const NzVector3ui& location) const
 {
     if(location.x >= 0 &&
        location.y >= 0 &&
