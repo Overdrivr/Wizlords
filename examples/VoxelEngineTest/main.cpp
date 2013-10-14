@@ -44,7 +44,7 @@ int main()
 	NzEulerAnglesf camAngles(0.f, -20.f, 0.f);
 
 	NzCamera camera;
-	camera.SetPosition(0.f, 0.25f, 2.f); // On place la caméra à l'écart
+	camera.SetPosition(50.f, 100.f, 50.f); // On place la caméra à l'écart
 	camera.SetRotation(camAngles);
 	camera.SetZFar(5000.f);
 	camera.SetZNear(0.1f);

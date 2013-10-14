@@ -9,11 +9,11 @@
 
 enum nzVoxelBlockType
 {
-    nzVoxelBlockType_nonvalid = 0,
-    nzVoxelBlockType_empty = 1,
-    nzVoxelBlockType_dirt = 2,
-    nzVoxelBlockType_rock = 3,
-    nzVoxelBlockType_wood = 4
+    nzVoxelBlockType_nonvalid = -2,
+    nzVoxelBlockType_empty = -1,
+    nzVoxelBlockType_dirt = 0,
+    nzVoxelBlockType_rock = 1,
+    nzVoxelBlockType_wood = 2
 };
 
 enum nzVoxelFaceOrientation
