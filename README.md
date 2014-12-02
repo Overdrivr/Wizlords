@@ -1,8 +1,7 @@
 Wizlords
 ========
 
-Wizlord solution : Nazara Engine add-ons, test examples and the game itself
+Experimenting with a cubic voxel terrain with the NazaraEngine
 
-========
-
-Experimenting with a cubic voxel terrain
+Note : This demo uses a far deprecated version of Nazara, for the most up-to-date version see :
+[https://github.com/DigitalPulseSoftware/NazaraEngine][https://github.com/DigitalPulseSoftware/NazaraEngine]
